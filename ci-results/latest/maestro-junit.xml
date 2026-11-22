@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<testsuites>
-  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="1" time="73.396" timestamp="2026-11-22T16:55:52">
-    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="73.231" timestamp="2026-11-22T16:55:52" status="ERROR">
-      <failure>Invalid path "/Users/runner/work/time-is-money/time-is-money/artifacts/01-welcome.png" for takeScreenshot: it resolves outside this run's takeScreenshot output folder. If the path comes from a variable, check what it expands to.</failure>
-    </testcase>
-  </testsuite>
-</testsuites>

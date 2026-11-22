@@ -1,7 +1,7 @@
-# iOS CI run 2
+# iOS CI run 3
 
-- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45043745474
-- Commit: 29962942952cf54d0002daf7fd1ad1e03aae6ee0
-- Video: artifact `ios-ci-2` (ui-flow.mp4)
+- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45047792358
+- Commit: 6e276dd69c5094f16359e54ef81529668bb9cc42
+- Video: artifact `ios-ci-3` (ui-flow.mp4)
 
 ![zz-after-failure.jpg](zz-after-failure.jpg)
