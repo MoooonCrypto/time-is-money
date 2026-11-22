@@ -40,13 +40,17 @@ export function Screen({
 }) {
   return (
     <SafeAreaView style={styles.screen} edges={edges}>
-      {scroll ? (
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[styles.scroll, { flex: 1 }]}>{children}</View>
-      )}
+      {/* "automatic" keeps content below the translucent native header (iOS 26 glass
+          header); RN's default "never" lets it scroll underneath. Found by the CI
+          simulator screenshots. */}
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        scrollEnabled={scroll}
+        contentContainerStyle={[styles.scroll, !scroll && { flexGrow: 1 }]}
+        keyboardShouldPersistTaps="handled"
+      >
+        {children}
+      </ScrollView>
     </SafeAreaView>
   );
 }

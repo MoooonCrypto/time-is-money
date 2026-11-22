@@ -29,6 +29,8 @@ appId: com.example.timeismoney
 - tapOn: "あとで設定する"
 - assertVisible: "スクリーンタイムへのアクセスが必要です"
 - assertVisible: ".*1,500円／時間.*"
+# Range switch must not be hidden under the navigation header
+- assertVisible: "今週"
 - takeScreenshot: 06-home-needs-permission
 - tapOn: "制限設定"
 - assertVisible: "まだ制限はありません。"
