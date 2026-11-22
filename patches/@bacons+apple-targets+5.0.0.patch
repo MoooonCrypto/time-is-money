@@ -1,0 +1,67 @@
+diff --git a/node_modules/@bacons/apple-targets/build/configuration-list.js b/node_modules/@bacons/apple-targets/build/configuration-list.js
+index 3a2a4c1..7befb9f 100644
+--- a/node_modules/@bacons/apple-targets/build/configuration-list.js
++++ b/node_modules/@bacons/apple-targets/build/configuration-list.js
+@@ -667,6 +667,15 @@ function getConfigurationListBuildSettingsForType(project, props) {
+             return createWatchWidgetConfigurationList(project, props);
+         case "app-intent":
+             return createAppIntentConfigurationList(props);
++        // [time-is-money patch] ExtensionKit-based report extension; honor deploymentTarget.
++        case "device-activity-report": {
++            const list = createAppIntentConfigurationList(props);
++            if (props.deploymentTarget) {
++                list.debug.IPHONEOS_DEPLOYMENT_TARGET = props.deploymentTarget;
++                list.release.IPHONEOS_DEPLOYMENT_TARGET = props.deploymentTarget;
++            }
++            return list;
++        }
+         case "notification-content":
+         // TODO: These just use this default value for now.
+         case "notification-service":
+diff --git a/node_modules/@bacons/apple-targets/build/target.js b/node_modules/@bacons/apple-targets/build/target.js
+index e968aaa..cbca0ec 100644
+--- a/node_modules/@bacons/apple-targets/build/target.js
++++ b/node_modules/@bacons/apple-targets/build/target.js
+@@ -116,6 +116,14 @@ exports.TARGET_REGISTRY = {
+         frameworks: ["DeviceActivity"],
+         displayName: "Device Activity Monitor",
+     },
++    // [time-is-money patch] DeviceActivityReport extension (ExtensionKit, iOS 16+).
++    "device-activity-report": {
++        extensionPointIdentifier: "com.apple.deviceactivityui.report-extension",
++        productType: "com.apple.product-type.extensionkit-extension",
++        frameworks: ["DeviceActivity", "SwiftUI"],
++        appGroupsByDefault: true,
++        displayName: "Device Activity Report",
++    },
+     "network-packet-tunnel": {
+         extensionPointIdentifier: "com.apple.networkextension.packet-tunnel",
+         needsEmbeddedSwift: true,
+@@ -343,6 +351,13 @@ function getTargetInfoPlistForType(type) {
+                     EXExtensionPointIdentifier: "com.apple.appintents-extension",
+                 },
+             };
++        // [time-is-money patch]
++        case "device-activity-report":
++            return {
++                EXAppExtensionAttributes: {
++                    EXExtensionPointIdentifier: "com.apple.deviceactivityui.report-extension",
++                },
++            };
+         case "clip":
+             return {
+                 CFBundleName: "$(PRODUCT_NAME)",
+diff --git a/node_modules/@bacons/apple-targets/build/with-xcode-changes.js b/node_modules/@bacons/apple-targets/build/with-xcode-changes.js
+index 96ded68..e00f4c6 100644
+--- a/node_modules/@bacons/apple-targets/build/with-xcode-changes.js
++++ b/node_modules/@bacons/apple-targets/build/with-xcode-changes.js
+@@ -253,7 +253,8 @@ async function applyXcodeChanges(config, project, props) {
+             fileRef: xcode_1.PBXFileReference.create(project, {
+                 explicitFileType: explicitFileType,
+                 includeInIndex: 0,
+-                path: props.name + (isExtension ? ".appex" : ".app"),
++                // [time-is-money patch] ExtensionKit extensions are also .appex bundles.
++                path: props.name + (isExtension || isExtensionKit ? ".appex" : ".app"),
+                 sourceTree: "BUILT_PRODUCTS_DIR",
+             }),
+             settings: {
