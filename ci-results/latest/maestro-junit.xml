@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="1" time="162.812" timestamp="2026-11-22T16:13:29">
+    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="162.751" timestamp="2026-11-22T16:13:29" status="ERROR">
+      <failure>Assertion is false: "はじめる" is visible</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

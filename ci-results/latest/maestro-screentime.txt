@@ -1,0 +1,17 @@
+Running on iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1
+ > Flow screentime-request
+Launch app "${APP_ID}"... COMPLETED
+Assert that "スクリーンタイムへのアクセスを許可" is visible... FAILED
+
+Assertion is false: "スクリーンタイムへのアクセスを許可" is visible
+
+Assertion '"スクリーンタイムへのアクセスを許可" is visible' failed. Check the UI hierarchy in debug artifacts to verify the element state and properties.
+
+Possible causes:
+- Element selector may be incorrect - check if there are similar elements with slightly different names/properties.
+- Element may be temporarily unavailable due to loading state
+- This could be a real regression that needs to be addressed
+
+==== Debug output (logs & screenshots) ====
+
+/Users/runner/.maestro/tests/2026-11-22_161623

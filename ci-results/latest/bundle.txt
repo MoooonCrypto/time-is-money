@@ -1,0 +1,6 @@
+PlugIns:
+TimeIsMoneyMonitor.appex
+TimeIsMoneyShieldAction.appex
+TimeIsMoneyShieldConfig.appex
+Extensions:
+TimeIsMoneyReport.appex
