@@ -7,7 +7,7 @@
 - Screen Time API（FamilyControls / DeviceActivity / ManagedSettings）と各拡張は Swift
 - 設定は端末内（App Group の UserDefaults）にのみ保存。アカウント・バックエンド・課金・ウィジェットはなし
 
-このREADMEだけで、会話ログを読まずに Mac で再開できるように書いています。
+このREADMEだけで、会話ログを読まずに Mac で再開できるように書いています。積み残しタスクと実機で確かめる前提は [docs/HANDOFF.md](docs/HANDOFF.md) にまとめています。
 
 ---
 

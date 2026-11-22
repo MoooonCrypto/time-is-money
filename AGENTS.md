@@ -1,6 +1,8 @@
 # Time Is Money — agent notes
 
-Expo SDK 58 / React Native 0.88 iOS app using the Screen Time APIs. **Read README.md first** (architecture, sources of truth, Mac handoff, verification status).
+Expo SDK 58 / React Native 0.88 iOS app using the Screen Time APIs. **Read README.md first** (architecture, sources of truth, Mac handoff, verification status), then docs/HANDOFF.md (open tasks, unverified assumptions). Keep docs/HANDOFF.md updated when you finish or add tasks.
+
+Swift can only be type-checked/built on macOS + Xcode; the cloud container has no Swift toolchain (download.swift.org is blocked).
 
 ## Ground rules
 - Expo dev client only (Expo Go cannot load FamilyControls/DeviceActivity).
