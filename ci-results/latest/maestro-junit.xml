@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <testsuites>
-  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="1" time="351.609" timestamp="2026-11-22T19:39:14">
-    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="351.507" timestamp="2026-11-22T19:39:14" status="ERROR">
-      <failure>Unknown error</failure>
-    </testcase>
+  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="0" time="102.125" timestamp="2026-11-22T20:30:17">
+    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="101.903" timestamp="2026-11-22T20:30:17" status="SUCCESS"/>
   </testsuite>
 </testsuites>

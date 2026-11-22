@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (5m 52s)
+[Passed] onboarding (1m 42s)
 
-1/1 Flow Failed
+1/1 Flow Passed in 1m 42s
 
