@@ -1,0 +1,43 @@
+# Simulator UI flow (no Screen Time permission: the simulator cannot exercise
+# shields / monitors / reports). Run by .github/workflows/ios-ci.yml.
+appId: ${APP_ID}
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "はじめる"
+    timeout: 90000
+- takeScreenshot: ${OUT}/01-welcome
+- tapOn: "はじめる"
+- assertVisible: "あなたの1時間はいくら？"
+- tapOn:
+    id: "rate-input"
+- inputText: "1500"
+- assertVisible: ".*1,500円／時間.*"
+- assertVisible: "3,000円"
+- takeScreenshot: ${OUT}/02-rate-preview
+- tapOn:
+    id: "rate-submit"
+- assertVisible: "スクリーンタイムへのアクセス"
+- takeScreenshot: ${OUT}/03-screentime-explain
+- tapOn: "あとで設定する"
+- assertVisible: ".*iOSが通知の許可を確認します.*"
+- takeScreenshot: ${OUT}/04-notification-explain
+- tapOn: "通知なしで進む"
+- assertVisible: "アプリの上限を決める"
+- takeScreenshot: ${OUT}/05-first-limit-needs-permission
+- tapOn: "あとで設定する"
+- assertVisible: "スクリーンタイムへのアクセスが必要です"
+- assertVisible: ".*1,500円／時間.*"
+- takeScreenshot: ${OUT}/06-home-needs-permission
+- tapOn: "制限設定"
+- assertVisible: "まだ制限はありません。"
+- takeScreenshot: ${OUT}/07-limits-empty
+- tapOn: "戻る"
+- tapOn: "単価を変更"
+- assertVisible: ".*1,500円／時間.*"
+- takeScreenshot: ${OUT}/08-rate-edit
+- tapOn: "戻る"
+- tapOn: "権限の確認"
+- assertVisible: "通知がオフです"
+- takeScreenshot: ${OUT}/09-permissions

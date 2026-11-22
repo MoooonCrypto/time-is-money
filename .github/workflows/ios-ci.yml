@@ -1,0 +1,145 @@
+name: iOS CI
+
+# Builds the app (all Swift targets) for the iOS Simulator, runs a Maestro UI
+# flow on a simulator with video + screenshots, and publishes the screenshots
+# to ci-results/latest on the same branch. No signing (CODE_SIGNING_ALLOWED=NO).
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/kind-fermat-30o1am]
+    paths-ignore: ["ci-results/**", "**/*.md"]
+
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  js:
+    name: TypeScript checks (typecheck / lint / jest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run verify
+
+  ios:
+    name: iOS Simulator build + UI test
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      APP_ID: com.example.timeismoney
+      OUT: ${{ github.workspace }}/artifacts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with: { xcode-version: latest-stable }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - name: Environment
+        run: |
+          mkdir -p "$OUT"
+          xcodebuild -version | tee "$OUT/env.txt"
+          sw_vers | tee -a "$OUT/env.txt"
+          node -v | tee -a "$OUT/env.txt"
+      - run: npm ci
+
+      - name: Swift core tests (TIMCore)
+        run: npm run test:swift-core 2>&1 | tee "$OUT/swift-core-tests.txt"
+
+      - name: Prebuild (generate ios/ + pod install)
+        run: CI=1 npx expo prebuild -p ios --clean
+
+      - name: xcodebuild (Release, iOS Simulator, all targets)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace ios/TimeIsMoney.xcworkspace -scheme TimeIsMoney \
+            -configuration Release -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO \
+            build > "$OUT/xcodebuild.log" 2>&1 || {
+              echo "::group::Compiler errors"; grep -E "error:|\*\* BUILD FAILED" "$OUT/xcodebuild.log" | sort -u | head -150; echo "::endgroup::"
+              tail -60 "$OUT/xcodebuild.log"; exit 1; }
+          grep -E "warning:.*(targets/|modules/screen-time)" "$OUT/xcodebuild.log" | sort -u | head -80 || true
+          tail -5 "$OUT/xcodebuild.log"
+
+      - name: Inspect app bundle (extensions embedded)
+        run: |
+          APP=build/Build/Products/Release-iphonesimulator/TimeIsMoney.app
+          { echo "PlugIns:"; ls "$APP/PlugIns" || true; echo "Extensions:"; ls "$APP/Extensions" || true; } | tee "$OUT/bundle.txt"
+          test -d "$APP/PlugIns/TimeIsMoneyMonitor.appex"
+          test -d "$APP/PlugIns/TimeIsMoneyShieldConfig.appex"
+          test -d "$APP/PlugIns/TimeIsMoneyShieldAction.appex"
+          test -d "$APP/Extensions/TimeIsMoneyReport.appex"
+
+      - name: Boot simulator + install
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json,sys
+          d=json.load(sys.stdin)["devices"]
+          c=[(r,x) for r,l in d.items() if "iOS" in r for x in l if x["name"].startswith("iPhone")]
+          c.sort(key=lambda t:t[0]); print(c[-1][1]["udid"])')
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl list devices | grep "$UDID" | tee -a "$OUT/env.txt"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl install "$UDID" build/Build/Products/Release-iphonesimulator/TimeIsMoney.app
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: UI test (Maestro) with video
+        run: |
+          maestro --version
+          xcrun simctl io "$UDID" recordVideo --codec=h264 --force "$OUT/ui-flow.mp4" &
+          REC=$!
+          sleep 2
+          set +e
+          maestro --device "$UDID" test -e APP_ID="$APP_ID" -e OUT="$OUT" \
+            --format junit --output "$OUT/maestro-junit.xml" .maestro/onboarding.yaml 2>&1 | tee "$OUT/maestro.txt"
+          STATUS=${PIPESTATUS[0]}
+          maestro --device "$UDID" test -e APP_ID="$APP_ID" -e OUT="$OUT" \
+            .maestro/screentime-request.yaml 2>&1 | tee "$OUT/maestro-screentime.txt"
+          kill -INT $REC; wait $REC
+          xcrun simctl spawn "$UDID" log show --last 10m --style compact \
+            --predicate 'process == "TimeIsMoney"' > "$OUT/app-log.txt" 2>&1
+          exit $STATUS
+
+      - name: Upload artifacts (video, screenshots, logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ci-${{ github.run_number }}
+          path: artifacts/
+          if-no-files-found: warn
+
+      - name: Publish screenshots to ci-results/latest
+        if: always() && github.ref == 'refs/heads/claude/kind-fermat-30o1am'
+        run: |
+          rm -rf ci-results/latest && mkdir -p ci-results/latest
+          cp artifacts/*.png artifacts/*.txt artifacts/*.xml ci-results/latest/ 2>/dev/null || true
+          rm -f ci-results/latest/xcodebuild.log
+          {
+            echo "# iOS CI run ${{ github.run_number }}"
+            echo
+            echo "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "- Commit: ${{ github.sha }}"
+            echo "- Video: artifact \`ios-ci-${{ github.run_number }}\` (ui-flow.mp4)"
+            echo
+            for f in ci-results/latest/*.png; do [ -e "$f" ] && echo "![$(basename "$f")]($(basename "$f"))"; done
+          } > ci-results/latest/README.md
+          cp ci-results/latest/README.md "$GITHUB_STEP_SUMMARY" || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ci-results/latest
+          git commit -m "ci: results of run ${{ github.run_number }} [skip ci]" || exit 0
+          git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"
