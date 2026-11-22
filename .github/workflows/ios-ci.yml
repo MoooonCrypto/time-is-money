@@ -111,18 +111,20 @@ jobs:
           SHOTS=$!
           sleep 2
           set +e
-          maestro --device "$UDID" test -e OUT="$OUT" \
+          maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
             --format junit --output "$OUT/maestro-junit.xml" .maestro/onboarding.yaml 2>&1 | tee "$OUT/maestro.txt"
           STATUS=${PIPESTATUS[0]}
           if [ "$STATUS" != "0" ]; then
             maestro --device "$UDID" hierarchy > "$OUT/hierarchy-after-failure.json" 2>&1
             xcrun simctl io "$UDID" screenshot "$OUT/zz-after-failure.png"
           fi
-          maestro --device "$UDID" test -e OUT="$OUT" \
+          maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
             .maestro/screentime-request.yaml 2>&1 | tee "$OUT/maestro-screentime.txt"
           kill $SHOTS 2>/dev/null
           kill -INT $REC; wait $REC
           mkdir -p "$OUT/maestro-debug"
+          # Named screenshots from takeScreenshot (relative names) -> $OUT
+          find "$OUT/maestro-out" "$HOME/.maestro/tests" "$PWD/.maestro" -name "[01][0-9]-*.png" -exec cp {} "$OUT/" \; 2>/dev/null
           find "$HOME/.maestro/tests" -name "*.png" -exec cp {} "$OUT/maestro-debug/" \; 2>/dev/null
           find "$HOME/.maestro/tests" -name "maestro.log" -exec cp {} "$OUT/maestro-debug/" \; 2>/dev/null
           xcrun simctl spawn "$UDID" log show --last 15m --style compact \

@@ -9,4 +9,4 @@ appId: com.example.timeismoney
 - tapOn: "スクリーンタイムへのアクセスを許可"
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: ${OUT}/10-screentime-request-result
+- takeScreenshot: 10-screentime-request-result
