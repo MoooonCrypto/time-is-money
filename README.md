@@ -248,7 +248,9 @@ macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）�
 | Maestro UI テスト（`.maestro/onboarding.yaml`：単価入力とプレビュー → 権限の事前説明 → スキップ → ホーム（許可が必要な表示・単価表示・期間切替）→ 制限設定 → 単価変更 → 権限画面） | ✅ |
 | シミュレータでスクリーンタイム許可をタップ（`.maestro/screentime-request.yaml`） | ダイアログは出ず状態も変わらない（シミュレータの制約。実機で確認） |
 
-CI のスクリーンショットで見つけて直した不具合：スタック画面の中身が iOS 26 の半透明ヘッダーの下に潜り、ホームの「今日／今週／累計」が隠れていた（`Screen` の ScrollView に `contentInsetAdjustmentBehavior="automatic"`）。
+CI のスクリーンショットで見つけて直した不具合：スタック画面の中身が iOS 26 の半透明ヘッダーの下に潜り、ホームの「今日／今週／累計」が隠れていた。
+- 最初の修正（`ScrollView` に `contentInsetAdjustmentBehavior="automatic"`）では、run 5・6 でアプリが真っ白な画面のまま描画されなかった（2回再現）。この修正は取り消した。
+- 最終的な修正：`src/app/_layout.tsx` でネイティブヘッダーを不透明にした（`headerTransparent: false` と `headerStyle` の背景色）。run 7 で全画面が正しく表示されることと、Maestro の `今週` の表示確認が通ることを確認した。
 
 シミュレータでは Screen Time（認可・Shield・監視・レポート）は検証できません。
 

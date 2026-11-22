@@ -6,7 +6,7 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 ## ビルド検証の状況
 
 - クラウドの Linux コンテナでは Swift をビルドできない（ツールチェーンなし、`download.swift.org` も遮断）。
-- 代わりに **GitHub Actions の macOS ランナー**（`.github/workflows/ios-ci.yml`）で、全 Swift ターゲットの Simulator 向けビルド（署名なし）、TIMCore テスト、Maestro の UI テストを実行している。2026-11-22 の run #4 以降は成功。結果は `ci-results/latest/`（スクリーンショット、ログ、4秒ごとのフレーム）。
+- 代わりに **GitHub Actions の macOS ランナー**（`.github/workflows/ios-ci.yml`）で、全 Swift ターゲットの Simulator 向けビルド（署名なし）、TIMCore テスト、Maestro の UI テストを実行している。2026-11-22 の run 7 が最新の成功（run 4 も成功。run 5・6 は下記の白画面リグレッションで失敗）。結果は `ci-results/latest/`（スクリーンショット、ログ、4秒ごとのフレーム）。
 - CI で確認できないもの：署名と entitlements、Screen Time の実動作（シミュレータでは認可ダイアログも出ない）。
 
 ### CI の運用メモ
@@ -15,6 +15,8 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 - Maestro の iOS ドライバが起動待ちでタイムアウトすることがある → 待ち時間を延長し、暖機と1回の再試行を入れてある。
 - `takeScreenshot` は相対名で指定する（絶対パスは Maestro が拒否する）。`appId` は直接書く（`${APP_ID}` は展開されなかった）。
 - 成果物の zip（動画）は Actions の画面からダウンロードする（クラウドのサンドボックスからは blob ストレージに届かない）。
+- このセッションの GitHub 連携は Actions を読むことはできるが、手動実行や再実行の API は 403 になる。CI を回すには push するしかない（`ci-results/**` と `*.md` だけの変更では起動しない）。
+- 新しいシミュレータでの初回起動は詰まることがあるので、Maestro の前にアプリを1回起動して待つ手順（暖機起動、`00-warmup-launch.jpg`）を入れてある。
 
 ## 優先度 高：Mac で最初にやる
 
@@ -52,7 +54,9 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 - [ ] 日本語のみ（ローカライズなし）
 - [ ] apple-targets のパッチ（device-activity-report 型）は、upstream が対応したら削除する。apple-targets を更新する場合はパッチを作り直す
 - [ ] UI テストは権限なしの経路だけ。ルール編集画面などは Screen Time 認可が必要なので、シミュレータでは届かない（Debug ビルド + `EXPO_PUBLIC_TIM_MOCK=1` で Maestro を回す案あり）
-- [ ] ホームのヘッダー下に入り込む不具合は修正済み（run #5 で確認）。ほかの画面のレイアウトも実機で目視確認する
+- [x] ヘッダー下に入り込む不具合：不透明ヘッダーで修正し、run 7 で確認
+- [ ] `contentInsetAdjustmentBehavior="automatic"` を `Screen` の ScrollView に付けると、シミュレータでアプリが白画面のまま描画されなかった（run 5・6）。原因は未特定。同じ手法は使わないこと
+- [ ] 実機でも全画面のレイアウトを目視確認する
 - [ ] `.claude/settings.json` は create-expo-app テンプレート由来の設定（Expo プラグインの有効化）。不要なら削除してよい
 
 ## 実施済みの検証（2026-11-22）
