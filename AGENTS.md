@@ -2,7 +2,7 @@
 
 Expo SDK 58 / React Native 0.88 iOS app using the Screen Time APIs. **Read README.md first** (architecture, sources of truth, Mac handoff, verification status), then docs/HANDOFF.md (open tasks, unverified assumptions). Keep docs/HANDOFF.md updated when you finish or add tasks.
 
-Swift can only be type-checked/built on macOS + Xcode; the cloud container has no Swift toolchain (download.swift.org is blocked).
+Swift can only be built on macOS + Xcode. The cloud container has no Swift toolchain, so use `.github/workflows/ios-ci.yml` (macOS runner: Swift build, TIMCore tests, Maestro UI test). Its results are committed to `ci-results/latest/`; `git pull` before pushing.
 
 ## Ground rules
 - Expo dev client only (Expo Go cannot load FamilyControls/DeviceActivity).

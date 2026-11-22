@@ -127,13 +127,13 @@ scripts/test-swift-core.sh    Swift 共有ロジックのテスト（Mac で実�
 - アプリアイコン/スプラッシュは Expo テンプレートのまま（Shield のロゴはコード描画）
 
 ### 実機未検証（Macで確認が必要）
-**Swift コードは一度もコンパイルされていません**（クラウドに Swift ツールチェーンが無く、swift.org への通信も遮断）。構文解析（tree-sitter）のみ通過済みです。以下すべて実機確認が必要です。
-- 全 Swift ソースのビルド（本体 Pod、4つの拡張）、パッチで生成した Report 拡張（ExtensionKit）の埋め込みと起動
+Swift のコンパイルは GitHub Actions（macOS / Xcode 26.6、iOS Simulator 向け Release、署名なし）で全ターゲット成功済み（§8）。以下は実機でしか確認できません。
+- 署名付きビルド（Family Controls / App Groups の entitlements が有効な状態）と実機へのインストール
 - FamilyControls 認可、アプリ選択UI、Shield 表示と「閉じる」
 - 本体を閉じた状態での監視・Shield・日付切替・通知
 - `includesPastActivity: true` による再開時の当日分算入（iOS 17.4+）
 - `tim.total` の 24時間イベント（下記制約）
-- Report 拡張から App Group の単価を読めること
+- Report 拡張の描画と、App Group の単価を読めること
 
 ---
 
@@ -226,28 +226,35 @@ App Group ID は `group.<本体 Bundle ID>` 固定の規約です（Swift 側は
 
 ---
 
-## 8. クラウド（Linux）で実行した検証と結果
+## 8. 実行済みの検証と結果
 
+### クラウド（Linux コンテナ）
 | 検証 | コマンド | 結果 |
 | --- | --- | --- |
-| 型チェック | `npm run typecheck` | ✅ エラーなし |
-| Lint | `npm run lint`（`expo lint`） | ✅ エラーなし |
-| 単体・コンポーネントテスト | `npm test` | ✅ 7スイート / 43テスト成功（単価換算・通知文面・日付と週（日曜始まり）・設定スキーマ・ルール版管理（独立上限、曜日別、制限なし、緩める変更の翌日反映、削除、取り消し）・一括解除・権限の導線・単価入力UI・ルール編集UI） |
-| iOS JS バンドル | `npx expo export --platform ios` | ✅ 成功 |
-| ネイティブ生成 | `npx expo prebuild -p ios --no-install --clean` | ✅ 成功。5ターゲット生成、Report 拡張は `com.apple.product-type.extensionkit-extension`・`.appex`・「Embed ExtensionKit Extensions（`$(EXTENSIONS_FOLDER_PATH)`）」で埋め込み、全ターゲットに Family Controls と App Group の entitlements、`_shared` が全ターゲットにリンクされることを pbxproj で確認 |
-| Autolinking | `npx expo-modules-autolinking resolve --platform apple` | ✅ `TimeIsMoneyScreenTime` Pod と3モジュールを検出 |
-| Swift 構文 | tree-sitter-swift で全 `.swift` を解析 | ✅ 構文エラーなし（**型チェック・コンパイルは未実施**） |
+| 型チェック / Lint / Jest | `npm run verify` | ✅ 7スイート / 43テスト成功（単価換算・通知文面・日付と週（日曜始まり）・設定スキーマ・ルール版管理・一括解除・権限の導線・単価入力UI・ルール編集UI） |
+| iOS JS バンドル | `npx expo export --platform ios` | ✅ |
+| ネイティブ生成 | `npx expo prebuild -p ios --no-install --clean` | ✅ 5ターゲット、Report は ExtensionKit で埋め込み、entitlements と `_shared` のリンクを pbxproj で確認 |
 
-### 9. クラウドで未検証のもの（Macで最初に試すこと）
-1. `npm run test:swift-core` — `TIMCore.swift` を `swiftc` でビルドし、TS と同じ文面・日付・版管理を検証
-2. `npx expo prebuild --clean -p ios && cd ios && pod install`（prebuild が自動で実行）— Pod のシンボリックリンク（`modules/screen-time/ios/Shared`）が解決されること
-3. `npx expo run:ios --device` — Swift のコンパイル。エラーが出やすい箇所の候補：
-   - `TIMScheduler.makeEvent` の `DeviceActivityEvent` 初期化子
-   - `TIMShieldController` の `ManagedSettingsStore.Name("…")`、`.specific(_:except:)`
-   - `targets/report` の `DeviceActivityReportScene` 準拠と `DeviceActivityFilter(segment:users:devices:)`
-   - `modules/screen-time/ios/TIMHostedViews.swift` の `ExpoView` サブクラス
-4. Xcode の Report 拡張が Extensions フォルダに埋め込まれていること（Product → Show Build Folder で `TimeIsMoney.app/Extensions/TimeIsMoneyReport.appex`）
-5. 以降は「7. 実機で確認する順番」
+### GitHub Actions（`.github/workflows/ios-ci.yml`、push / 手動実行）
+macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。結果のスクリーンショットとログは CI が `ci-results/latest/` にコミットします（動画 `ui-flow.mp4` は Actions の artifact）。
+
+| 検証 | 結果 |
+| --- | --- |
+| `npm run verify`（ubuntu） | ✅ |
+| `npm run test:swift-core`（TIMCore を swiftc でビルド・実行） | ✅ |
+| `expo prebuild` + `pod install`（シンボリックリンク込み） | ✅ |
+| `xcodebuild`（Release / iOS Simulator / 署名なし、本体 Pod + 4拡張すべて） | ✅ 初回で成功 |
+| 拡張の埋め込み（`PlugIns/` に Monitor・ShieldConfig・ShieldAction、`Extensions/` に Report） | ✅ |
+| Maestro UI テスト（`.maestro/onboarding.yaml`：単価入力とプレビュー → 権限の事前説明 → スキップ → ホーム（許可が必要な表示・単価表示・期間切替）→ 制限設定 → 単価変更 → 権限画面） | ✅ |
+| シミュレータでスクリーンタイム許可をタップ（`.maestro/screentime-request.yaml`） | ダイアログは出ず状態も変わらない（シミュレータの制約。実機で確認） |
+
+CI のスクリーンショットで見つけて直した不具合：スタック画面の中身が iOS 26 の半透明ヘッダーの下に潜り、ホームの「今日／今週／累計」が隠れていた（`Screen` の ScrollView に `contentInsetAdjustmentBehavior="automatic"`）。
+
+シミュレータでは Screen Time（認可・Shield・監視・レポート）は検証できません。
+
+### 9. Macで最初に試すこと
+1. 署名：`.env.local` に `TIM_BUNDLE_ID` / `APPLE_TEAM_ID` を入れて `npx expo prebuild --clean -p ios` → `npx expo run:ios --device`（CI は署名なしなので、entitlements 付き署名は未確認）
+2. 以降は「7. 実機で確認する順番」
 
 ---
 

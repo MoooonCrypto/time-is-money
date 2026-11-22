@@ -1,27 +1,28 @@
 # 引き継ぎ・積み残しタスク
 
-最終更新: 2026-11-22（クラウド作業セッション終了時点）
+最終更新: 2026-11-22（GitHub Actions による macOS ビルドと UI テストの導入後）
 README.md の「3. 実装状況」「7. 実機で確認する順番」「9. クラウドで未検証のもの」とあわせて読んでください。
 
-## なぜ Swift が未ビルドなのか
+## ビルド検証の状況
 
-- クラウド環境（Linux コンテナ）には Swift ツールチェーンがなく、`download.swift.org` へのアクセスもネットワークポリシーで拒否される（403）。apt にも Swift コンパイラはない。
-- 仮に Linux 版 Swift を入れられても、ビルドできるのは Foundation だけを使う `targets/_shared/TIMCore.swift`（`npm run test:swift-core`）に限られる。FamilyControls / DeviceActivity / ManagedSettings / SwiftUI / ExpoModulesCore を使う残りのコード（本体モジュールと4つの拡張）は **macOS + Xcode でしかビルドできない**。
-- このため Swift の型チェック・コンパイル・実機動作はすべて Mac での作業になる。実施済みなのは tree-sitter による構文チェックだけ。
+- クラウドの Linux コンテナでは Swift をビルドできない（ツールチェーンなし、`download.swift.org` も遮断）。
+- 代わりに **GitHub Actions の macOS ランナー**（`.github/workflows/ios-ci.yml`）で、全 Swift ターゲットの Simulator 向けビルド（署名なし）、TIMCore テスト、Maestro の UI テストを実行している。2026-11-22 の run #4 以降は成功。結果は `ci-results/latest/`（スクリーンショット、ログ、4秒ごとのフレーム）。
+- CI で確認できないもの：署名と entitlements、Screen Time の実動作（シミュレータでは認可ダイアログも出ない）。
 
-## 優先度 高：Mac で最初にやる（ブロッカー確認）
+### CI の運用メモ
+- push（`claude/kind-fermat-30o1am`、`ci-results/**` と `*.md` 以外の変更）または手動実行で起動する。1回あたり約30〜35分（xcodebuild 約15分、シミュレータ起動 約10分）。
+- CI が `ci-results: …[skip ci]` コミットをブランチへ push するので、作業前に `git pull` すること。
+- Maestro の iOS ドライバが起動待ちでタイムアウトすることがある → 待ち時間を延長し、暖機と1回の再試行を入れてある。
+- `takeScreenshot` は相対名で指定する（絶対パスは Maestro が拒否する）。`appId` は直接書く（`${APP_ID}` は展開されなかった）。
+- 成果物の zip（動画）は Actions の画面からダウンロードする（クラウドのサンドボックスからは blob ストレージに届かない）。
+
+## 優先度 高：Mac で最初にやる
 
 1. [ ] `npm install`、`.env.local` を作成（`TIM_BUNDLE_ID`、`APPLE_TEAM_ID`）
-2. [ ] `npm run test:swift-core`：TIMCore のテスト。文面・日付・版管理が TS と一致すること
-3. [ ] `npx expo prebuild --clean -p ios` → `pod install` が通ること。特に `modules/screen-time/ios/Shared/*.swift`（`targets/_shared` へのシンボリックリンク）が Pod に取り込まれること
-4. [ ] `npx expo run:ios --device` で全ターゲットをコンパイルする。エラーが出やすい箇所の候補：
-   - `TIMScheduler.makeEvent`：`DeviceActivityEvent` の初期化子（`includesPastActivity` は iOS 17.4+）
-   - `TIMShieldController`：`ManagedSettingsStore.Name("…")` と `.specific(_:except:)`
-   - `targets/report`：`DeviceActivityReportScene` への準拠、`DeviceActivityFilter(segment:users:devices:)`、`Label(token)`（FamilyControls）
-   - `modules/screen-time/ios/TIMHostedViews.swift`：`ExpoView` サブクラスの init。`requireNativeView("TIMUsageReport")` と `requireNativeView("TIMSelectionLabel")` で表示されるか
-   - Swift 6 の並行性チェックで警告やエラーが出たら、Pod 側は `swift_version 5.9`。拡張側は apple-targets 既定の `SWIFT_VERSION` を確認する
-5. [ ] ビルド成果物に `TimeIsMoney.app/Extensions/TimeIsMoneyReport.appex`（ExtensionKit）と `PlugIns/` 配下の3つの `.appex` が入っていること
-6. [ ] README §7 の実機チェックリストを上から順に実施する
+2. [x] ~~`npm run test:swift-core`~~（CI で成功）
+3. [x] ~~prebuild / pod install / 全ターゲットのコンパイル~~（CI で成功。ただし署名なし）
+4. [ ] `npx expo run:ios --device`：**署名付き**（Family Controls / App Groups）でビルドとインストールが通ること
+5. [ ] README §7 の実機チェックリストを上から順に実施する
 
 コンパイルを通すための修正が必要になった場合は、正本（`targets/**`、`modules/screen-time/**`、`app.config.ts`、`patches/**`）を直す。`ios/` を手で編集しないこと。
 
@@ -50,9 +51,11 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 - [ ] ダークモードは未対応（`userInterfaceStyle: "light"`）。アクセシビリティ（VoiceOver の読み上げ文言）も未確認
 - [ ] 日本語のみ（ローカライズなし）
 - [ ] apple-targets のパッチ（device-activity-report 型）は、upstream が対応したら削除する。apple-targets を更新する場合はパッチを作り直す
-- [ ] 画面のスクリーンショット確認は未実施。必要なら `EXPO_PUBLIC_TIM_MOCK=1` の開発用モックで確認できる（Debug のみ）
+- [ ] UI テストは権限なしの経路だけ。ルール編集画面などは Screen Time 認可が必要なので、シミュレータでは届かない（Debug ビルド + `EXPO_PUBLIC_TIM_MOCK=1` で Maestro を回す案あり）
+- [ ] ホームのヘッダー下に入り込む不具合は修正済み（run #5 で確認）。ほかの画面のレイアウトも実機で目視確認する
 - [ ] `.claude/settings.json` は create-expo-app テンプレート由来の設定（Expo プラグインの有効化）。不要なら削除してよい
 
-## クラウドで実施済みの検証（2026-11-22）
+## 実施済みの検証（2026-11-22）
 
-typecheck、lint、Jest（7スイート・43テスト）、`expo export --platform ios`、`expo prebuild -p ios`（Linux）、モジュールの自動リンク解決、Swift の構文チェック（tree-sitter）。詳細は README §8。
+- クラウド：typecheck、lint、Jest（7スイート・43テスト）、`expo export --platform ios`、`expo prebuild -p ios`（Linux）、autolinking の解決、Swift の構文チェック（tree-sitter）
+- GitHub Actions（macOS）：TIMCore テスト、prebuild + pod install、xcodebuild（全ターゲット）、拡張の埋め込み確認、Maestro UI テスト（スクリーンショット 10枚）。詳細は README §8
