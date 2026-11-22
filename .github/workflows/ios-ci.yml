@@ -35,6 +35,7 @@ jobs:
     env:
       APP_ID: com.example.timeismoney
       OUT: ${{ github.workspace }}/artifacts
+      MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
     steps:
       - uses: actions/checkout@v4
       - uses: maxim-lobanov/setup-xcode@v1
@@ -111,9 +112,16 @@ jobs:
           SHOTS=$!
           sleep 2
           set +e
-          maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
-            --format junit --output "$OUT/maestro-junit.xml" .maestro/onboarding.yaml 2>&1 | tee "$OUT/maestro.txt"
-          STATUS=${PIPESTATUS[0]}
+          # Warm up the XCTest driver (first start on a fresh simulator can be slow).
+          maestro --device "$UDID" hierarchy > /dev/null 2>&1 || maestro --device "$UDID" hierarchy > /dev/null 2>&1
+          for attempt in 1 2; do
+            maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
+              --format junit --output "$OUT/maestro-junit.xml" .maestro/onboarding.yaml 2>&1 | tee "$OUT/maestro.txt"
+            STATUS=${PIPESTATUS[0]}
+            [ "$STATUS" = "0" ] && break
+            grep -q "driver not ready" "$OUT/maestro.txt" || break
+            echo "Maestro driver timeout; retrying ($attempt)"
+          done
           if [ "$STATUS" != "0" ]; then
             maestro --device "$UDID" hierarchy > "$OUT/hierarchy-after-failure.json" 2>&1
             xcrun simctl io "$UDID" screenshot "$OUT/zz-after-failure.png"
