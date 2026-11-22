@@ -1,6 +1,6 @@
 Running on iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1
  > Flow screentime-request
-Launch app "${APP_ID}"... COMPLETED
+Launch app "com.example.timeismoney"... COMPLETED
 Assert that "スクリーンタイムへのアクセスを許可" is visible... FAILED
 
 Assertion is false: "スクリーンタイムへのアクセスを許可" is visible
@@ -14,4 +14,4 @@ Possible causes:
 
 ==== Debug output (logs & screenshots) ====
 
-/Users/runner/.maestro/tests/2026-11-22_161623
+/Users/runner/.maestro/tests/2026-11-22_165812

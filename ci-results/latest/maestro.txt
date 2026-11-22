@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (2m 43s) (Assertion is false: "はじめる" is visible)
+[Failed] onboarding (1m 13s) (Invalid path "/Users/runner/work/time-is-money/time-is-money/artifacts/01-welcome.png" for takeScreenshot: it resolves outside this run's takeScreenshot output folder. If the path comes from a variable, check what it expands to.)
 
 1/1 Flow Failed
 
