@@ -14,4 +14,4 @@ Possible causes:
 
 ==== Debug output (logs & screenshots) ====
 
-/Users/runner/work/time-is-money/time-is-money/artifacts/maestro-out/2026-11-22_185633
+/Users/runner/work/time-is-money/time-is-money/artifacts/maestro-out/2026-11-22_194911

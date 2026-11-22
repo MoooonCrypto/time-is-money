@@ -1,4 +1,7 @@
-2026-11-22 18:54:04.981 Df TimeIsMoney[75161:31244] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
-2026-11-22 18:54:05.652 Df TimeIsMoney[75161:31219] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
-2026-11-22 18:58:08.108 Df TimeIsMoney[85343:37940] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
-2026-11-22 18:58:08.464 Df TimeIsMoney[85343:3792f] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
+2026-11-22 19:36:25.313 Df TimeIsMoney[58505:27057] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
+2026-11-22 19:36:25.369 Df TimeIsMoney[58505:27045] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
+2026-11-22 19:49:45.187 Df TimeIsMoney[93536:3d544] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
+2026-11-22 19:49:45.519 Df TimeIsMoney[93536:3d519] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
+2026-11-22 19:49:46.335 E  TimeIsMoney[93536:3d560] [com.apple.FamilyControls:authorization] Failed to get service proxy: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.FamilyControlsAgent was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.FamilyControlsAgent was invalidated from this process.}
+2026-11-22 19:49:46.371 E  TimeIsMoney[93536:3d560] [com.apple.FamilyControls:authorization] Failed to get service proxy: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.FamilyControlsAgent was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.FamilyControlsAgent was invalidated from this process.}
+2026-11-22 19:49:46.393 E  TimeIsMoney[93536:3d560] [com.facebook.react.log:javascript] '[expo-notifications] Error reading persisted server registration info: ', { [Error: Calling the 'getRegistrationInfoAsync' function has failed

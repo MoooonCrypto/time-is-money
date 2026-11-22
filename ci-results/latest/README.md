@@ -1,7 +1,8 @@
-# iOS CI run 5
+# iOS CI run 6
 
-- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45054496764
-- Commit: 6a022f67015533d7de2323febde431a94176d3f2
-- Video: artifact `ios-ci-5` (ui-flow.mp4)
+- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45059167077
+- Commit: 04a827026248637158b1a9fd911a015fd3c8ec0c
+- Video: artifact `ios-ci-6` (ui-flow.mp4)
 
+![00-warmup-launch.jpg](00-warmup-launch.jpg)
 ![zz-after-failure.jpg](zz-after-failure.jpg)

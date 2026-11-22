@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (5m 48s) (Assertion is false: "はじめる" is visible)
+[Failed] onboarding (5m 52s)
 
 1/1 Flow Failed
 
