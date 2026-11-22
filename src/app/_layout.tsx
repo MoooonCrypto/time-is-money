@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { colors } from "../components/ui";
 import { configureForegroundPresentation, routeForNotificationResponse } from "../native/notifications";
 import { AppStoreProvider } from "../state/AppStore";
 
@@ -32,7 +33,17 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <AppStoreProvider>
         <StatusBar style="dark" />
-        <Stack screenOptions={{ headerBackTitle: "戻る" }}>
+        <Stack
+          screenOptions={{
+            headerBackTitle: "戻る",
+            // Opaque header: screens are laid out below it. With the default
+            // translucent iOS 26 header, content scrolled underneath (CI run 4).
+            headerTransparent: false,
+            headerStyle: { backgroundColor: colors.bg },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: colors.bg },
+          }}
+        >
           <Stack.Screen name="index" options={{ title: "Time Is Money" }} />
           <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name="stats" options={{ title: "統計" }} />
