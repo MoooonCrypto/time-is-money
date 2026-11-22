@@ -1,6 +1,6 @@
 # Simulator UI flow (no Screen Time permission: the simulator cannot exercise
 # shields / monitors / reports). Run by .github/workflows/ios-ci.yml.
-appId: ${APP_ID}
+appId: com.example.timeismoney
 ---
 - launchApp:
     clearState: true

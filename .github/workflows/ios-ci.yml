@@ -100,18 +100,34 @@ jobs:
       - name: UI test (Maestro) with video
         run: |
           maestro --version
+          mkdir -p "$OUT/frames"
           xcrun simctl io "$UDID" recordVideo --codec=h264 --force "$OUT/ui-flow.mp4" &
           REC=$!
+          # Periodic low-res frames so results can be reviewed from the repo (no artifact download needed).
+          ( i=0; while [ $i -lt 120 ]; do
+              f=$(printf "$OUT/frames/frame-%03d" $i)
+              xcrun simctl io "$UDID" screenshot "$f.png" >/dev/null 2>&1 && sips -s format jpeg -s formatOptions 60 -Z 700 "$f.png" --out "$f.jpg" >/dev/null 2>&1 && rm -f "$f.png"
+              i=$((i+1)); sleep 4; done ) &
+          SHOTS=$!
           sleep 2
           set +e
-          maestro --device "$UDID" test -e APP_ID="$APP_ID" -e OUT="$OUT" \
+          maestro --device "$UDID" test -e OUT="$OUT" \
             --format junit --output "$OUT/maestro-junit.xml" .maestro/onboarding.yaml 2>&1 | tee "$OUT/maestro.txt"
           STATUS=${PIPESTATUS[0]}
-          maestro --device "$UDID" test -e APP_ID="$APP_ID" -e OUT="$OUT" \
+          if [ "$STATUS" != "0" ]; then
+            maestro --device "$UDID" hierarchy > "$OUT/hierarchy-after-failure.json" 2>&1
+            xcrun simctl io "$UDID" screenshot "$OUT/zz-after-failure.png"
+          fi
+          maestro --device "$UDID" test -e OUT="$OUT" \
             .maestro/screentime-request.yaml 2>&1 | tee "$OUT/maestro-screentime.txt"
+          kill $SHOTS 2>/dev/null
           kill -INT $REC; wait $REC
-          xcrun simctl spawn "$UDID" log show --last 10m --style compact \
-            --predicate 'process == "TimeIsMoney"' > "$OUT/app-log.txt" 2>&1
+          mkdir -p "$OUT/maestro-debug"
+          find "$HOME/.maestro/tests" -name "*.png" -exec cp {} "$OUT/maestro-debug/" \; 2>/dev/null
+          find "$HOME/.maestro/tests" -name "maestro.log" -exec cp {} "$OUT/maestro-debug/" \; 2>/dev/null
+          xcrun simctl spawn "$UDID" log show --last 15m --style compact \
+            --predicate 'process == "TimeIsMoney" AND NOT (subsystem == "com.apple.dt.xctest")' > "$OUT/app-log.txt" 2>&1
+          grep -E "com.facebook.react|ReactNativeJS|Exception|Error" "$OUT/app-log.txt" | head -200 > "$OUT/app-log-errors.txt" || true
           exit $STATUS
 
       - name: Upload artifacts (video, screenshots, logs)
@@ -126,8 +142,13 @@ jobs:
         if: always() && github.ref == 'refs/heads/claude/kind-fermat-30o1am'
         run: |
           rm -rf ci-results/latest && mkdir -p ci-results/latest
-          cp artifacts/*.png artifacts/*.txt artifacts/*.xml ci-results/latest/ 2>/dev/null || true
-          rm -f ci-results/latest/xcodebuild.log
+          cp artifacts/*.png artifacts/*.txt artifacts/*.xml artifacts/*.json ci-results/latest/ 2>/dev/null || true
+          rm -f ci-results/latest/xcodebuild.log ci-results/latest/app-log.txt
+          mkdir -p ci-results/latest/frames ci-results/latest/maestro-debug
+          cp artifacts/frames/*.jpg ci-results/latest/frames/ 2>/dev/null || true
+          for f in artifacts/maestro-debug/*.png; do [ -e "$f" ] && sips -s format jpeg -Z 700 "$f" --out "ci-results/latest/maestro-debug/$(basename "${f%.png}").jpg" >/dev/null; done
+          cp artifacts/maestro-debug/maestro.log ci-results/latest/maestro-debug/ 2>/dev/null || true
+          for f in ci-results/latest/*.png; do sips -s format jpeg -Z 900 "$f" --out "${f%.png}.jpg" >/dev/null && rm "$f"; done
           {
             echo "# iOS CI run ${{ github.run_number }}"
             echo
@@ -135,7 +156,7 @@ jobs:
             echo "- Commit: ${{ github.sha }}"
             echo "- Video: artifact \`ios-ci-${{ github.run_number }}\` (ui-flow.mp4)"
             echo
-            for f in ci-results/latest/*.png; do [ -e "$f" ] && echo "![$(basename "$f")]($(basename "$f"))"; done
+            for f in ci-results/latest/*.jpg; do [ -e "$f" ] && echo "![$(basename "$f")]($(basename "$f"))"; done
           } > ci-results/latest/README.md
           cp ci-results/latest/README.md "$GITHUB_STEP_SUMMARY" || true
           git config user.name "github-actions[bot]"

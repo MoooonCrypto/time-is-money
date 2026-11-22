@@ -1,6 +1,6 @@
 # Exploratory: what happens when Screen Time access is requested on the simulator.
 # No assertions on the result (simulator behavior differs from devices).
-appId: ${APP_ID}
+appId: com.example.timeismoney
 ---
 - launchApp
 - extendedWaitUntil:
