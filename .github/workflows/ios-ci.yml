@@ -92,6 +92,12 @@ jobs:
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
           xcrun simctl install "$UDID" build/Build/Products/Release-iphonesimulator/TimeIsMoney.app
+          # Warm-up launch: the first launch on a fresh simulator can stall (seen in run 5:
+          # process up, JS never started). Launch once, wait, capture, terminate.
+          xcrun simctl launch "$UDID" "$APP_ID" || true
+          sleep 45
+          xcrun simctl io "$UDID" screenshot "$OUT/00-warmup-launch.png" || true
+          xcrun simctl terminate "$UDID" "$APP_ID" || true
 
       - name: Install Maestro
         run: |
