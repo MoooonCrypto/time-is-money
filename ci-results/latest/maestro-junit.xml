@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <testsuites>
-  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="0" time="68.232" timestamp="2026-11-22T18:12:17">
-    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="68.011" timestamp="2026-11-22T18:12:17" status="SUCCESS"/>
+  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="1" time="348.178" timestamp="2026-11-22T18:49:52">
+    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="348.084" timestamp="2026-11-22T18:49:52" status="ERROR">
+      <failure>Assertion is false: "はじめる" is visible</failure>
+    </testcase>
   </testsuite>
 </testsuites>
