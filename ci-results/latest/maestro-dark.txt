@@ -3,17 +3,21 @@ Running on iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1
 Launch app "com.example.timeismoney"... COMPLETED
 Assert that "Time Is Money" is visible... COMPLETED
 Take screenshot 13-dark-home... COMPLETED
-Tap on "制限"... FAILED
+Tap on "制限"... COMPLETED
+Assert that "まだ制限はありません" is visible... COMPLETED
+Take screenshot 14-dark-limits... COMPLETED
+Tap on "設定"... COMPLETED
+Assert that "時間の単価" is visible... FAILED
 
-Element not found: Text matching regex: 制限
+Assertion is false: "時間の単価" is visible
 
-Element with Text matching regex: 制限 not found. Check the UI hierarchy in debug artifacts to verify if the element exists.
+Assertion '"時間の単価" is visible' failed. Check the UI hierarchy in debug artifacts to verify the element state and properties.
 
 Possible causes:
 - Element selector may be incorrect - check if there are similar elements with slightly different names/properties.
-- Element may be temporarily unavailable due to loading state.
-- This could be a real regression that needs to be addressed.
+- Element may be temporarily unavailable due to loading state
+- This could be a real regression that needs to be addressed
 
 ==== Debug output (logs & screenshots) ====
 
-/Users/runner/work/time-is-money/time-is-money/artifacts/maestro-out/2026-11-23_023331
+/Users/runner/work/time-is-money/time-is-money/artifacts/maestro-out/2026-11-23_032416
