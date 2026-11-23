@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (4m 15s) (No visible element found: "時間の単価")
+[Failed] onboarding (1m 7s) (Assertion is false: "制限の追加" is visible)
 
 1/1 Flow Failed
 
