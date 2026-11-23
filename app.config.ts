@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     platforms: ["ios"],
     orientation: "portrait",
     icon: "./assets/icon.png",
-    userInterfaceStyle: "light",
+    userInterfaceStyle: "automatic",
     ios: {
       bundleIdentifier,
       supportsTablet: false,

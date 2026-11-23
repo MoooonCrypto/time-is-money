@@ -1,23 +1,46 @@
-import { router } from "expo-router";
+import { router, Stack } from "expo-router";
 import React from "react";
+import { Pressable } from "react-native";
 
-import { RateEditor } from "../components/RateEditor";
-import { Screen, Small } from "../components/ui";
+import { RateEditor, useRateInput } from "../components/RateEditor";
 import { useAppStore } from "../state/AppStore";
+import { Button, haptic, Screen, T } from "../ui/components";
+import { color } from "../ui/theme";
 
-export default function RateScreen() {
+export default function RateSheet() {
   const store = useAppStore();
+  const input = useRateInput(store.config.hourlyRateYen);
   return (
-    <Screen>
-      <RateEditor
-        initial={store.config.hourlyRateYen}
-        submitLabel="保存"
-        onSubmit={async (rate) => {
-          await store.updateConfig((c) => ({ ...c, hourlyRateYen: rate }));
-          router.back();
+    <>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
+              <T variant="body" color={color.accent}>
+                キャンセル
+              </T>
+            </Pressable>
+          ),
         }}
       />
-      <Small>統計と通知の円換算は、過去の分も含めて現在の単価で計算されます。</Small>
-    </Screen>
+      <Screen
+        footer={
+          <Button
+            testID="rate-submit"
+            title="保存"
+            disabled={!input.parsed.ok}
+            onPress={async () => {
+              if (!input.parsed.ok) return;
+              const rate = input.parsed.value;
+              haptic.success();
+              await store.updateConfig((c) => ({ ...c, hourlyRateYen: rate }));
+              router.back();
+            }}
+          />
+        }
+      >
+        <RateEditor input={input} />
+      </Screen>
+    </>
   );
 }

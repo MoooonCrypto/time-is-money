@@ -42,8 +42,8 @@ class ShieldConfigurationExtension: ShieldConfigurationDataSource {
       icon: Self.logo(),
       title: ShieldConfiguration.Label(text: "今日の利用上限に達しました", color: .white),
       subtitle: ShieldConfiguration.Label(text: subtitle, color: UIColor(white: 0.85, alpha: 1)),
-      primaryButtonLabel: ShieldConfiguration.Label(text: "閉じる", color: Self.background),
-      primaryButtonBackgroundColor: Self.accent,
+      primaryButtonLabel: ShieldConfiguration.Label(text: "閉じる", color: .white),
+      primaryButtonBackgroundColor: .systemIndigo,
       secondaryButtonLabel: nil)
   }
 

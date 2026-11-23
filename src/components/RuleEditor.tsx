@@ -1,9 +1,10 @@
-// Create/edit one app limit. Used by onboarding and 制限設定.
+// Create/edit one app limit. Presented as a sheet (scoped task, HIG 7.3);
+// the primary "保存" action is pinned at the bottom (thumb zone, HIG 1.3).
 import React, { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, TextInput, View } from "react-native";
 
 import type { AppConfig } from "../domain/config";
-import { addDays, dayKey, formatDayKeyJa, WEEKDAY_LABELS } from "../domain/dates";
+import { addDays, dayKey, formatDayKeyJa } from "../domain/dates";
 import { formatDuration } from "../domain/money";
 import {
   classifyChange,
@@ -18,22 +19,30 @@ import {
   type SelectionRelation,
 } from "../domain/rules";
 import { screenTime } from "../native/screenTime";
+import { Button, haptic, Icon, Row, Screen, Section, Segmented, T } from "../ui/components";
+import { color, HIT, radius, space } from "../ui/theme";
 import { SelectionLabel } from "./SelectionLabel";
-import { Banner, Button, Card, colors, H2, Row, Segmented, Small } from "./ui";
 
 const DEV_PRESETS = [1, 2, 3];
+const WEEKDAY_NAMES = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+/** Monday-first display order (data stays Sunday = 0). */
+const DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
 
 export function RuleEditor({
   config,
   ruleId,
   onSave,
-  onCancel,
+  footerExtra,
+  children,
   saveLabel = "保存",
 }: {
   config: AppConfig;
   ruleId: string | null;
   onSave: (result: SaveResult) => Promise<void>;
-  onCancel?: () => void;
+  /** Extra content under the pinned save button. */
+  footerExtra?: React.ReactNode;
+  /** Extra sections after the form (e.g. delete). */
+  children?: React.ReactNode;
   saveLabel?: string;
 }) {
   const now = new Date();
@@ -68,6 +77,7 @@ export function RuleEditor({
     setSaving(true);
     try {
       const result = saveRule(config, ruleId, draft, relation, now);
+      haptic.success();
       await onSave(result);
     } catch (e) {
       Alert.alert("保存できませんでした", e instanceof Error ? e.message : String(e));
@@ -76,143 +86,226 @@ export function RuleEditor({
     }
   };
 
+  const setWeekday = (i: number, m: number | null) =>
+    setDraft((d) => {
+      const w = d.weeklyLimitMinutes.slice();
+      w[i] = m;
+      return { ...d, weeklyLimitMinutes: w };
+    });
+
   return (
-    <View style={{ gap: 12 }}>
-      <Card>
-        <H2>名前</H2>
-        <TextInput
-          value={draft.name}
-          onChangeText={(name) => setDraft((d) => ({ ...d, name }))}
-          placeholder="例：SNS"
-          style={s.textInput}
-          maxLength={30}
-        />
-      </Card>
-
-      <Card>
-        <H2>制限するアプリ</H2>
-        <SelectionLabel selectionId={draft.selectionId} />
-        <Button kind="secondary" title={draft.selectionId ? "アプリを変更" : "アプリを選ぶ"} onPress={() => void pick()} />
-        <Small>上限はこの制限ごとに独立して数えます（他の制限のアプリはロックされません）。</Small>
-      </Card>
-
-      <Card>
-        <H2>1日の上限</H2>
-        <Segmented
-          options={[
-            { value: "daily", label: "毎日固定" },
-            { value: "weekly", label: "曜日別" },
-          ]}
-          value={draft.mode}
-          onChange={(mode) => setDraft((d) => ({ ...d, mode }))}
-        />
-        {draft.mode === "daily" ? (
-          <LimitPicker
-            value={draft.dailyLimitMinutes}
-            allowNone={false}
-            onChange={(m) => setDraft((d) => ({ ...d, dailyLimitMinutes: m }))}
-          />
-        ) : (
-          <View style={{ gap: 10 }}>
-            {WEEKDAY_LABELS.map((label, i) => (
-              <View key={label} style={s.weekRow}>
-                <Text style={s.weekLabel}>{label}</Text>
-                <View style={{ flex: 1 }}>
-                  <LimitPicker
-                    compact
-                    value={draft.weeklyLimitMinutes[i]}
-                    allowNone
-                    onChange={(m) =>
-                      setDraft((d) => {
-                        const w = d.weeklyLimitMinutes.slice();
-                        w[i] = m;
-                        return { ...d, weeklyLimitMinutes: w };
-                      })
-                    }
-                  />
-                </View>
-              </View>
-            ))}
+    <Screen
+      footer={
+        <>
+          {error ? (
+            <View style={s.inlineError}>
+              <Icon name="info.circle" size={14} tint={color.secondaryLabel} />
+              <T variant="footnote" color={color.secondaryLabel}>
+                {error}
+              </T>
+            </View>
+          ) : null}
+          <Button testID="rule-save" title={saveLabel} onPress={() => void save()} disabled={!!error} loading={saving} />
+          {footerExtra}
+        </>
+      }
+    >
+      <Section header="制限するアプリ" footer="上限はこの制限ごとに独立して数えます。ほかの制限のアプリはロックされません。">
+        {draft.selectionId ? (
+          <View style={s.selectionBox}>
+            <SelectionLabel selectionId={draft.selectionId} />
           </View>
+        ) : null}
+        <Row
+          testID="pick-apps"
+          title={draft.selectionId ? "アプリを変更" : "アプリを選ぶ"}
+          icon="square.grid.2x2.fill"
+          iconBg={color.info}
+          tint={color.accent}
+          chevron
+          onPress={() => void pick()}
+        />
+      </Section>
+
+      <Section header="名前">
+        <View style={s.textRow}>
+          <TextInput
+            value={draft.name}
+            onChangeText={(name) => setDraft((d) => ({ ...d, name }))}
+            placeholder="例：SNS"
+            placeholderTextColor={color.placeholder}
+            style={s.textInput}
+            maxLength={30}
+            accessibilityLabel="制限の名前"
+            clearButtonMode="while-editing"
+          />
+        </View>
+      </Section>
+
+      <Section header="1日の上限">
+        <View style={s.segmentRow}>
+          <Segmented
+            testID="mode-segmented"
+            options={[
+              { value: "daily", label: "毎日固定" },
+              { value: "weekly", label: "曜日別" },
+            ]}
+            value={draft.mode}
+            onChange={(mode) => setDraft((d) => ({ ...d, mode }))}
+          />
+        </View>
+        {draft.mode === "daily" ? (
+          <View style={s.dailyBox}>
+            <T variant="largeTitle" align="center" tabular accessibilityLabel={`1日の上限 ${draft.dailyLimitMinutes ? formatDuration(draft.dailyLimitMinutes) : "未設定"}`}>
+              {draft.dailyLimitMinutes ? formatDuration(draft.dailyLimitMinutes) : "—"}
+            </T>
+            <View style={{ alignItems: "center" }}>
+              <Stepper value={draft.dailyLimitMinutes} onChange={(m) => setDraft((d) => ({ ...d, dailyLimitMinutes: m }))} />
+            </View>
+            <PresetChips value={draft.dailyLimitMinutes} onChange={(m) => setDraft((d) => ({ ...d, dailyLimitMinutes: m }))} />
+          </View>
+        ) : (
+          DISPLAY_ORDER.map((i) => {
+            const m = draft.weeklyLimitMinutes[i];
+            return (
+              <View key={i} style={s.weekRow}>
+                <View style={{ flex: 1 }}>
+                  <T variant="body">{WEEKDAY_NAMES[i]}</T>
+                  <T variant="subheadline" color={m ? color.label : color.secondaryLabel} tabular>
+                    {m ? formatDuration(m) : "制限なし"}
+                  </T>
+                </View>
+                {m ? <Stepper value={m} onChange={(v) => setWeekday(i, v)} /> : null}
+                <Switch
+                  testID={`weekday-${i}-switch`}
+                  accessibilityLabel={`${WEEKDAY_NAMES[i]}に上限を設定`}
+                  value={m !== null}
+                  onValueChange={(on) => {
+                    haptic.selection();
+                    setWeekday(i, on ? 30 : null);
+                  }}
+                />
+              </View>
+            );
+          })
         )}
-      </Card>
+      </Section>
 
-      {rule && !error && (
-        <Banner tone={timing === "immediate" ? "ok" : "info"} title={timing === "immediate" ? "今日から反映" : `${tomorrowLabel}から反映`}>
-          <Small>
-            {timing === "immediate"
-              ? "上限を厳しくする変更なので、すぐに反映されます。"
-              : "上限を緩める変更（上限の引き上げ・制限なし・アプリの除外）は翌日から反映されます。今日は現在の上限のままです。"}
-          </Small>
-        </Banner>
-      )}
+      {rule && !error ? (
+        <View style={s.timing}>
+          <Icon
+            name={timing === "immediate" ? "bolt.fill" : "calendar.badge.clock"}
+            size={20}
+            tint={timing === "immediate" ? color.success : color.warning}
+            mode="hierarchical"
+          />
+          <View style={{ flex: 1 }}>
+            <T variant="headline">{timing === "immediate" ? "今日から反映" : `${tomorrowLabel}から反映`}</T>
+            <T variant="footnote" color={color.secondaryLabel}>
+              {timing === "immediate"
+                ? "上限を厳しくする変更なので、すぐに反映されます。"
+                : "上限を緩める変更（引き上げ・制限なし・アプリの除外）は翌日から反映されます。今日は現在の上限のままです。"}
+            </T>
+          </View>
+        </View>
+      ) : null}
 
-      {error && <Small style={{ color: colors.danger }}>{error}</Small>}
-      <Button title={saveLabel} onPress={() => void save()} disabled={!!error} loading={saving} />
-      {onCancel && <Button kind="ghost" title="キャンセル" onPress={onCancel} />}
+      {children}
+    </Screen>
+  );
+}
+
+/** UIStepper-like control (−/＋), 5-minute steps (1 minute below 5 in development). */
+export function Stepper({ value, onChange }: { value: number | null; onChange: (m: number) => void }) {
+  const min = __DEV__ ? 1 : 5;
+  const base = value ?? 30;
+  const step = (dir: 1 | -1) => {
+    const size = base <= 5 && __DEV__ ? 1 : 5;
+    const next = Math.min(23 * 60 + 55, Math.max(min, base + dir * size));
+    haptic.selection();
+    onChange(next);
+  };
+  return (
+    <View style={s.stepper}>
+      <Pressable accessibilityRole="button" accessibilityLabel="減らす" onPress={() => step(-1)} style={s.stepHalf} hitSlop={4}>
+        <Icon name="minus" size={15} tint={color.label} weight="semibold" />
+      </Pressable>
+      <View style={s.stepDivider} />
+      <Pressable accessibilityRole="button" accessibilityLabel="増やす" onPress={() => step(1)} style={s.stepHalf} hitSlop={4}>
+        <Icon name="plus" size={15} tint={color.label} weight="semibold" />
+      </Pressable>
     </View>
   );
 }
 
-export function LimitPicker({
-  value,
-  onChange,
-  allowNone,
-  compact,
-}: {
-  value: number | null;
-  onChange: (m: number | null) => void;
-  allowNone: boolean;
-  compact?: boolean;
-}) {
+function PresetChips({ value, onChange }: { value: number | null; onChange: (m: number) => void }) {
   const presets: number[] = [...(__DEV__ ? DEV_PRESETS : []), ...LIMIT_PRESETS_MINUTES];
-  const step = (delta: number) => {
-    const base = value ?? 30;
-    const next = Math.min(23 * 60 + 55, Math.max(__DEV__ ? 1 : 5, base + delta));
-    onChange(next);
-  };
   return (
-    <View style={{ gap: 8 }}>
-      <Row>
-        <Pressable accessibilityLabel="5分減らす" onPress={() => step(-5)} style={s.stepBtn}>
-          <Text style={s.stepText}>−</Text>
-        </Pressable>
-        <Text style={[s.value, compact && { fontSize: 18 }]}>{value ? formatDuration(value) : "制限なし"}</Text>
-        <Pressable accessibilityLabel="5分増やす" onPress={() => step(5)} style={s.stepBtn}>
-          <Text style={s.stepText}>＋</Text>
-        </Pressable>
-      </Row>
-      {!compact && (
-        <View style={s.chips}>
-          {presets.map((m) => (
-            <Pressable key={m} onPress={() => onChange(m)} style={[s.chip, value === m && s.chipActive]}>
-              <Text style={[s.chipText, value === m && s.chipTextActive]}>
-                {formatDuration(m)}
-                {DEV_PRESETS.includes(m) ? "(dev)" : ""}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      )}
-      {allowNone && (
-        <Pressable onPress={() => onChange(value === null ? 30 : null)} style={[s.chip, value === null && s.chipActive, { alignSelf: "flex-start" }]}>
-          <Text style={[s.chipText, value === null && s.chipTextActive]}>制限なし</Text>
-        </Pressable>
-      )}
-    </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.chips}>
+      {presets.map((m) => {
+        const active = value === m;
+        return (
+          <Pressable
+            key={m}
+            accessibilityRole="button"
+            accessibilityState={{ selected: active }}
+            onPress={() => {
+              haptic.selection();
+              onChange(m);
+            }}
+            style={[s.chip, active && s.chipActive]}
+          >
+            <T variant="subheadline" weight="600" color={active ? color.onAccent : color.label}>
+              {formatDuration(m)}
+              {DEV_PRESETS.includes(m) ? " dev" : ""}
+            </T>
+          </Pressable>
+        );
+      })}
+    </ScrollView>
   );
 }
 
 const s = StyleSheet.create({
-  textInput: { fontSize: 16, borderWidth: 1, borderColor: colors.line, borderRadius: 10, padding: 10, color: colors.ink },
-  weekRow: { flexDirection: "row", alignItems: "flex-start", gap: 10, borderTopWidth: StyleSheet.hairlineWidth, borderColor: colors.line, paddingTop: 8 },
-  weekLabel: { width: 24, fontSize: 16, fontWeight: "700", color: colors.ink, paddingTop: 8 },
-  stepBtn: { width: 44, height: 40, borderRadius: 10, borderWidth: 1, borderColor: colors.line, alignItems: "center", justifyContent: "center" },
-  stepText: { fontSize: 22, color: colors.ink },
-  value: { flex: 1, textAlign: "center", fontSize: 24, fontWeight: "800", color: colors.ink },
-  chips: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-  chip: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999, borderWidth: 1, borderColor: colors.line },
-  chipActive: { backgroundColor: colors.navy, borderColor: colors.navy },
-  chipText: { fontSize: 13, color: colors.ink },
-  chipTextActive: { color: "#fff" },
+  selectionBox: { paddingHorizontal: space.l, paddingVertical: space.m },
+  textRow: { paddingHorizontal: space.l, minHeight: HIT + 8, justifyContent: "center" },
+  textInput: { fontSize: 17, color: color.label, paddingVertical: space.m },
+  segmentRow: { padding: space.l, paddingBottom: space.s },
+  dailyBox: { paddingBottom: space.l, gap: space.m },
+  weekRow: {
+    minHeight: HIT + 12,
+    paddingHorizontal: space.l,
+    paddingVertical: space.s,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space.m,
+  },
+  stepper: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: color.fill,
+    borderRadius: 9,
+    borderCurve: "continuous",
+    height: 32,
+  },
+  stepHalf: { width: 47, height: 32, alignItems: "center", justifyContent: "center" },
+  stepDivider: { width: StyleSheet.hairlineWidth, height: 18, backgroundColor: color.separator },
+  chips: { paddingHorizontal: space.l, gap: space.s },
+  chip: {
+    paddingHorizontal: 14,
+    height: 34,
+    justifyContent: "center",
+    borderRadius: radius.pill,
+    backgroundColor: color.fill,
+  },
+  chipActive: { backgroundColor: color.accent },
+  timing: {
+    flexDirection: "row",
+    gap: space.m,
+    padding: space.l,
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    borderCurve: "continuous",
+  },
+  inlineError: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6 },
 });

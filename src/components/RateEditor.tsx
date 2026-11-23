@@ -1,85 +1,102 @@
+// Hourly-rate input with a live yen preview. Controlled: parents own the
+// primary action (pinned in the thumb zone).
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
-import { formatYen, parseRateInput, ratePreview } from "../domain/money";
-import { Button, Card, colors, Small } from "./ui";
+import { formatYen, parseRateInput, ratePreview, type RateParseResult } from "../domain/money";
+import { Icon, Row, Section, T } from "../ui/components";
+import { color, radius, space } from "../ui/theme";
+
+export function useRateInput(initial: number | null) {
+  const [text, setText] = useState(initial ? String(initial) : "");
+  const [touched, setTouched] = useState(false);
+  const parsed: RateParseResult = parseRateInput(text);
+  return {
+    text,
+    parsed,
+    touched,
+    setText: (t: string) => {
+      setText(t);
+      setTouched(true);
+    },
+  };
+}
 
 export function RateEditor({
-  initial,
-  submitLabel,
-  onSubmit,
+  input,
+  autoFocus,
 }: {
-  initial: number | null;
-  submitLabel: string;
-  onSubmit: (rate: number) => void | Promise<void>;
+  input: ReturnType<typeof useRateInput>;
+  autoFocus?: boolean;
 }) {
-  const [text, setText] = useState(initial ? String(initial) : "");
-  const parsed = parseRateInput(text);
-  const [touched, setTouched] = useState(false);
-
+  const { text, parsed, touched, setText } = input;
   return (
-    <View style={{ gap: 12 }}>
-      <Card>
-        <Small>時間の単価（円／時間）</Small>
+    <View style={{ gap: space.xl }}>
+      <View style={s.field}>
         <View style={s.inputRow}>
+          <T variant="title1" color={color.secondaryLabel}>
+            ¥
+          </T>
           <TextInput
             testID="rate-input"
             value={text}
-            onChangeText={(t) => {
-              setText(t);
-              setTouched(true);
-            }}
-            placeholder="1500"
+            onChangeText={setText}
+            placeholder="1,500"
+            placeholderTextColor={color.placeholder}
             keyboardType="number-pad"
             inputMode="numeric"
             maxLength={9}
+            autoFocus={autoFocus}
             style={s.input}
             accessibilityLabel="時間の単価（円／時間）"
           />
-          <Text style={s.unit}>円／時間</Text>
+          <T variant="headline" color={color.secondaryLabel}>
+            ／時間
+          </T>
         </View>
-        <Small>実際の給与である必要はありません。「自分の1時間はこのくらいの価値」と思う金額で大丈夫です。あとから変更できます。</Small>
-        {!parsed.ok && touched && <Text style={s.error}>{parsed.error}</Text>}
-      </Card>
+        {!parsed.ok && touched ? (
+          <View style={s.errorRow} accessibilityLiveRegion="polite">
+            <Icon name="exclamationmark.circle.fill" size={15} tint={color.destructive} />
+            <T variant="footnote" color={color.destructive}>
+              {parsed.error}
+            </T>
+          </View>
+        ) : (
+          <T variant="footnote" color={color.secondaryLabel} align="center">
+            実際の給与でなくて大丈夫。「自分の1時間の価値」で決めましょう。
+          </T>
+        )}
+      </View>
 
-      {parsed.ok && (
-        <Card>
-          <Small>円換算プレビュー（{formatYen(parsed.value)}円／時間）</Small>
+      {parsed.ok ? (
+        <Section header={`円換算プレビュー（${formatYen(parsed.value)}円／時間）`}>
           {ratePreview(parsed.value).map((l) => (
-            <View key={l.label} style={s.previewRow}>
-              <Text style={s.previewLabel}>{l.label}</Text>
-              <Text style={s.previewYen}>{l.yen}</Text>
-            </View>
+            <Row key={l.label} title={l.label} value={l.yen} />
           ))}
-        </Card>
-      )}
-
-      <Button
-        testID="rate-submit"
-        title={submitLabel}
-        disabled={!parsed.ok}
-        onPress={() => {
-          if (parsed.ok) void onSubmit(parsed.value);
-        }}
-      />
+        </Section>
+      ) : null}
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  inputRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  input: {
-    flex: 1,
-    fontSize: 32,
-    fontWeight: "800",
-    color: colors.ink,
-    borderBottomWidth: 2,
-    borderColor: colors.gold,
-    paddingVertical: 6,
+  field: {
+    backgroundColor: color.card,
+    borderRadius: radius.card,
+    borderCurve: "continuous",
+    paddingVertical: space.xl,
+    paddingHorizontal: space.l,
+    gap: space.m,
   },
-  unit: { fontSize: 16, color: colors.sub },
-  error: { color: colors.danger, fontSize: 13 },
-  previewRow: { flexDirection: "row", justifyContent: "space-between", paddingVertical: 2 },
-  previewLabel: { fontSize: 15, color: colors.ink },
-  previewYen: { fontSize: 15, fontWeight: "700", color: colors.ink },
+  inputRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "center", gap: space.s },
+  input: {
+    minWidth: 120,
+    fontSize: 48,
+    fontWeight: "700",
+    color: color.label,
+    textAlign: "center",
+    fontVariant: ["tabular-nums"],
+    paddingVertical: 0,
+  },
+  errorRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6 },
 });

@@ -4,9 +4,9 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { colors } from "../components/ui";
 import { configureForegroundPresentation, routeForNotificationResponse } from "../native/notifications";
 import { AppStoreProvider } from "../state/AppStore";
+import { headerOptions, sheetOptions } from "../ui/navigation";
 
 configureForegroundPresentation();
 
@@ -32,27 +32,13 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <AppStoreProvider>
-        <StatusBar style="dark" />
-        <Stack
-          screenOptions={{
-            headerBackTitle: "戻る",
-            // Opaque header: screens are laid out below it. With the default
-            // translucent iOS 26 header, content scrolled underneath (CI run 4).
-            headerTransparent: false,
-            headerStyle: { backgroundColor: colors.bg },
-            headerShadowVisible: false,
-            contentStyle: { backgroundColor: colors.bg },
-          }}
-        >
-          <Stack.Screen name="index" options={{ title: "Time Is Money" }} />
-          <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false }} />
+        <StatusBar style="auto" />
+        <Stack screenOptions={headerOptions}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false, animation: "fade" }} />
+          <Stack.Screen name="limit-editor" options={{ ...sheetOptions, title: "制限" }} />
+          <Stack.Screen name="rate" options={{ ...sheetOptions, title: "時間の単価" }} />
           <Stack.Screen name="stats" options={{ title: "統計" }} />
-          <Stack.Screen name="rate" options={{ title: "時間の単価" }} />
-          <Stack.Screen name="permissions" options={{ title: "権限" }} />
-          <Stack.Screen name="limits/index" options={{ title: "制限設定" }} />
-          <Stack.Screen name="limits/current" options={{ title: "現在の制限" }} />
-          <Stack.Screen name="limits/edit" options={{ title: "制限の編集" }} />
-          <Stack.Screen name="dev" options={{ title: "開発用" }} />
         </Stack>
       </AppStoreProvider>
     </SafeAreaProvider>

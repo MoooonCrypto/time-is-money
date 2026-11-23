@@ -132,8 +132,15 @@ jobs:
             maestro --device "$UDID" hierarchy > "$OUT/hierarchy-after-failure.json" 2>&1
             xcrun simctl io "$UDID" screenshot "$OUT/zz-after-failure.png"
           fi
+          # Dark Mode pass
+          xcrun simctl ui "$UDID" appearance dark
+          maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
+            .maestro/dark.yaml 2>&1 | tee "$OUT/maestro-dark.txt"
+          DARK=${PIPESTATUS[0]}
+          xcrun simctl ui "$UDID" appearance light
           maestro --device "$UDID" test --test-output-dir "$OUT/maestro-out" \
             .maestro/screentime-request.yaml 2>&1 | tee "$OUT/maestro-screentime.txt"
+          [ "$STATUS" = "0" ] && STATUS=$DARK
           kill $SHOTS 2>/dev/null
           kill -INT $REC; wait $REC
           mkdir -p "$OUT/maestro-debug"

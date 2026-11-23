@@ -1,30 +1,40 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import React from "react";
+import { Pressable, Text } from "react-native";
 
-import { RateEditor } from "../RateEditor";
+import { RateEditor, useRateInput } from "../RateEditor";
 
-jest.mock("react-native-safe-area-context", () => ({
-  SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
-}));
+function Harness({ onSubmit }: { onSubmit: (v: number) => void }) {
+  const input = useRateInput(null);
+  return (
+    <>
+      <RateEditor input={input} />
+      <Pressable testID="submit" disabled={!input.parsed.ok} onPress={() => input.parsed.ok && onSubmit(input.parsed.value)}>
+        <Text>保存</Text>
+      </Pressable>
+    </>
+  );
+}
 
 describe("RateEditor", () => {
-  test("shows a yen preview while typing and submits the parsed rate", async () => {
+  test("shows a yen preview while typing and yields the parsed rate", async () => {
     const onSubmit = jest.fn();
-    await render(<RateEditor initial={null} submitLabel="次へ" onSubmit={onSubmit} />);
+    await render(<Harness onSubmit={onSubmit} />);
     await fireEvent.changeText(screen.getByTestId("rate-input"), "1,500");
     expect(screen.getByText("円換算プレビュー（1,500円／時間）")).toBeTruthy();
     expect(screen.getByText("25円")).toBeTruthy(); // 1 minute
     expect(screen.getByText("3,000円")).toBeTruthy(); // 2 hours
-    await fireEvent.press(screen.getByTestId("rate-submit"));
+    await fireEvent.press(screen.getByTestId("submit"));
     expect(onSubmit).toHaveBeenCalledWith(1500);
   });
 
-  test("invalid input disables submit and shows an error", async () => {
+  test("invalid input shows an inline error and no preview", async () => {
     const onSubmit = jest.fn();
-    await render(<RateEditor initial={null} submitLabel="次へ" onSubmit={onSubmit} />);
+    await render(<Harness onSubmit={onSubmit} />);
     await fireEvent.changeText(screen.getByTestId("rate-input"), "abc");
     expect(screen.getByText("半角数字で入力してください")).toBeTruthy();
-    await fireEvent.press(screen.getByTestId("rate-submit"));
+    expect(screen.queryByText(/円換算プレビュー/)).toBeNull();
+    await fireEvent.press(screen.getByTestId("submit"));
     expect(onSubmit).not.toHaveBeenCalled();
   });
 });

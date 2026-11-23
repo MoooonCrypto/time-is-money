@@ -21,11 +21,11 @@ describe("RuleEditor", () => {
     mockPick.mockResolvedValue({ selectionId: "sel1", applicationCount: 1, categoryCount: 0, webDomainCount: 0, relation: null });
     const onSave = jest.fn().mockResolvedValue(undefined);
     await render(<RuleEditor config={defaultConfig()} ruleId={null} onSave={onSave} />);
-    expect(screen.getByText("制限するアプリを選んでください")).toBeTruthy();
+    expect(screen.getByText("制限するアプリを選んでください")).toBeTruthy(); // inline validation
     await fireEvent.press(screen.getByText("アプリを選ぶ"));
     await waitFor(() => expect(screen.getByText("アプリ1件")).toBeTruthy());
     await fireEvent.press(screen.getByText("20分"));
-    await fireEvent.press(screen.getByText("保存"));
+    await fireEvent.press(screen.getByTestId("rule-save"));
     await waitFor(() => expect(onSave).toHaveBeenCalled());
     const result = onSave.mock.calls[0][0];
     expect(result.timing).toBe("immediate");
@@ -46,7 +46,7 @@ describe("RuleEditor", () => {
     expect(screen.getByText("今日から反映")).toBeTruthy();
     await fireEvent.press(screen.getByText("1時間"));
     expect(screen.getByText(/から反映$/)).toBeTruthy();
-    await fireEvent.press(screen.getByText("保存"));
+    await fireEvent.press(screen.getByTestId("rule-save"));
     await waitFor(() => expect(onSave).toHaveBeenCalled());
     expect(onSave.mock.calls[0][0].timing).toBe("nextDay");
   });
@@ -58,9 +58,10 @@ describe("RuleEditor", () => {
     await fireEvent.press(screen.getByText("アプリを選ぶ"));
     await waitFor(() => expect(screen.getByText("アプリ1件")).toBeTruthy());
     await fireEvent.press(screen.getByText("曜日別"));
-    // first "制限なし" chip belongs to Sunday
-    await fireEvent.press(screen.getAllByText("制限なし")[0]);
-    await fireEvent.press(screen.getByText("保存"));
+    // Turn off Sunday (index 0) -> 制限なし
+    await fireEvent(screen.getByTestId("weekday-0-switch"), "valueChange", false);
+    expect(screen.getByText("制限なし")).toBeTruthy();
+    await fireEvent.press(screen.getByTestId("rule-save"));
     await waitFor(() => expect(onSave).toHaveBeenCalled());
     const v = onSave.mock.calls[0][0].config.rules[0].versions[0];
     expect(v.mode).toBe("weekly");

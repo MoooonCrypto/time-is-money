@@ -48,15 +48,39 @@ struct UsageReportHost: View {
   @ObservedObject var model: UsageReportModel
 
   var body: some View {
-    ZStack {
-      VStack(spacing: 8) {
-        ProgressView()
-        Text("利用データを取得中…").font(.footnote).foregroundStyle(.secondary)
-      }
+    ZStack(alignment: .top) {
+      // Skeleton while the report extension renders (no blocking spinner, HIG 8.2).
+      ReportSkeleton()
       let report = TIMReportFilters.filter(range: model.range)
       DeviceActivityReport(report.0, filter: report.1)
         .id("\(model.range)-\(model.refreshToken)")
     }
+    .background(Color(.systemGroupedBackground))
+  }
+}
+
+struct ReportSkeleton: View {
+  var body: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      VStack(alignment: .leading, spacing: 10) {
+        Text("今日のiPhone全体").font(.subheadline)
+        Text("12,345円").font(.system(size: 48, weight: .bold, design: .rounded))
+        Text("合計 0時間00分").font(.headline)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(20)
+      .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Color(.secondarySystemGroupedBackground)))
+      VStack(alignment: .leading, spacing: 14) {
+        ForEach(0..<4, id: \.self) { _ in
+          HStack { Text("アプリ名アプリ名"); Spacer(); Text("1,234円") }
+        }
+      }
+      .padding(20)
+      .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Color(.secondarySystemGroupedBackground)))
+    }
+    .redacted(reason: .placeholder)
+    .padding(.vertical, 4)
+    .accessibilityLabel("利用データを取得中")
   }
 }
 

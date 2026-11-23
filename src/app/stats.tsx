@@ -1,19 +1,23 @@
 // Opened from usage notifications (range=today).
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
+import { View } from "react-native";
 
 import type { UsageRange } from "../../modules/screen-time";
 import { RANGE_OPTIONS, UsageReport } from "../components/UsageReport";
-import { Screen, Segmented } from "../components/ui";
+import { Screen, Segmented } from "../ui/components";
+import { space } from "../ui/theme";
 
 export default function Stats() {
   const params = useLocalSearchParams<{ range?: string }>();
   const initial: UsageRange = params.range === "week" || params.range === "total" ? params.range : "today";
   const [range, setRange] = useState<UsageRange>(initial);
   return (
-    <Screen scroll={false}>
-      <Segmented options={RANGE_OPTIONS} value={range} onChange={setRange} />
-      <UsageReport range={range} />
+    <Screen>
+      <View style={{ gap: space.m }}>
+        <Segmented options={RANGE_OPTIONS} value={range} onChange={setRange} />
+        <UsageReport range={range} />
+      </View>
     </Screen>
   );
 }

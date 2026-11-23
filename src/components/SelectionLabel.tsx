@@ -3,7 +3,8 @@ import { View } from "react-native";
 
 import { NativeSelectionLabelView } from "../../modules/screen-time";
 import { screenTime } from "../native/screenTime";
-import { Small } from "./ui";
+import { Icon, T } from "../ui/components";
+import { color } from "../ui/theme";
 
 /** App icons (and names) of a stored selection, rendered natively via Label(token). */
 export function SelectionLabel({
@@ -15,21 +16,29 @@ export function SelectionLabel({
   showTitles?: boolean;
   maxIcons?: number;
 }) {
-  if (!selectionId) return <Small>アプリ未選択</Small>;
+  if (!selectionId) {
+    return (
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+        <Icon name="app.dashed" size={18} tint={color.tertiaryLabel} />
+        <T variant="subheadline" color={color.secondaryLabel}>
+          アプリ未選択
+        </T>
+      </View>
+    );
+  }
   if (NativeSelectionLabelView) {
     return (
       <View style={{ height: showTitles ? 28 * Math.min(maxIcons, 4) : 30 }}>
-        <NativeSelectionLabelView
-          style={{ flex: 1 }}
-          selectionId={selectionId}
-          maxIcons={maxIcons}
-          showTitles={!!showTitles}
-        />
+        <NativeSelectionLabelView style={{ flex: 1 }} selectionId={selectionId} maxIcons={maxIcons} showTitles={!!showTitles} />
       </View>
     );
   }
   const summary = screenTime.getSelectionSummary(selectionId);
-  return <Small>{summary ? describeSummary(summary) : "選択済み"}</Small>;
+  return (
+    <T variant="subheadline" color={color.secondaryLabel}>
+      {summary ? describeSummary(summary) : "選択済み"}
+    </T>
+  );
 }
 
 export function describeSummary(s: { applicationCount: number; categoryCount: number; webDomainCount: number }): string {

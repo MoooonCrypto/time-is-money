@@ -1,0 +1,18 @@
+# Dark Mode pass (semantic system colors). Run after `simctl ui appearance dark`.
+appId: com.example.timeismoney
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Time Is Money"
+    timeout: 60000
+- takeScreenshot: 13-dark-home
+- tapOn: "制限"
+- assertVisible: "まだ制限はありません"
+- takeScreenshot: 14-dark-limits
+- tapOn: "設定"
+- assertVisible: "時間の単価"
+- takeScreenshot: 15-dark-settings
+- openLink: "timeismoney://limit-editor"
+- assertVisible: "制限の追加"
+- takeScreenshot: 16-dark-editor
+- tapOn: "キャンセル"

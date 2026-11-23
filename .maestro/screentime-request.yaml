@@ -1,12 +1,14 @@
 # Exploratory: what happens when Screen Time access is requested on the simulator.
-# No assertions on the result (simulator behavior differs from devices).
 appId: com.example.timeismoney
 ---
 - launchApp
+- tapOn: "ホーム"
 - extendedWaitUntil:
-    visible: "スクリーンタイムへのアクセスを許可"
+    visible:
+      id: "request-screentime"
     timeout: 60000
-- tapOn: "スクリーンタイムへのアクセスを許可"
+- tapOn:
+    id: "request-screentime"
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: 10-screentime-request-result
+- takeScreenshot: 17-screentime-request-result

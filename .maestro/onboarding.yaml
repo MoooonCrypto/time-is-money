@@ -1,45 +1,67 @@
-# Simulator UI flow (no Screen Time permission: the simulator cannot exercise
-# shields / monitors / reports). Run by .github/workflows/ios-ci.yml.
+# Light-mode walkthrough of every screen reachable without Screen Time access
+# (the simulator cannot grant it). Run by .github/workflows/ios-ci.yml.
 appId: com.example.timeismoney
 ---
 - launchApp:
     clearState: true
 - extendedWaitUntil:
-    visible: "はじめる"
+    visible: ".*いくら.*"
     timeout: 90000
-- takeScreenshot: 01-welcome
-- tapOn: "はじめる"
-- assertVisible: "あなたの1時間はいくら？"
 - tapOn:
     id: "rate-input"
 - inputText: "1500"
-- assertVisible: ".*1,500円／時間.*"
-- assertVisible: "3,000円"
-- takeScreenshot: 02-rate-preview
+- assertVisible: ".*3,000円.*"
+- takeScreenshot: 01-onboarding-rate
 - tapOn:
-    id: "rate-submit"
-- assertVisible: "スクリーンタイムへのアクセス"
-- takeScreenshot: 03-screentime-explain
-- tapOn: "あとで設定する"
-- assertVisible: ".*iOSが通知の許可を確認します.*"
-- takeScreenshot: 04-notification-explain
-- tapOn: "通知なしで進む"
-- assertVisible: "アプリの上限を決める"
-- takeScreenshot: 05-first-limit-needs-permission
-- tapOn: "あとで設定する"
-- assertVisible: "スクリーンタイムへのアクセスが必要です"
-- assertVisible: ".*1,500円／時間.*"
-# Range switch must not be hidden under the navigation header
+    id: "onboarding-next"
+- assertVisible: "アクセスの許可"
+- takeScreenshot: 02-onboarding-permissions
+- tapOn:
+    id: "onboarding-next"
+- assertVisible: "最初の制限"
+- takeScreenshot: 03-onboarding-first-limit
+- tapOn:
+    id: "onboarding-later"
+# Home tab
+- extendedWaitUntil:
+    visible: "Time Is Money"
+    timeout: 20000
 - assertVisible: "今週"
-- takeScreenshot: 06-home-needs-permission
-- tapOn: "制限設定"
-- assertVisible: "まだ制限はありません。"
-- takeScreenshot: 07-limits-empty
-- tapOn: "戻る"
-- tapOn: "単価を変更"
+- assertVisible: "スクリーンタイムへのアクセスが必要です"
+- takeScreenshot: 04-home
+- scrollUntilVisible:
+    element: "時間の単価"
+    direction: DOWN
 - assertVisible: ".*1,500円／時間.*"
-- takeScreenshot: 08-rate-edit
+- takeScreenshot: 05-home-scrolled
+- tapOn:
+    id: "row-current-limits"
+- assertVisible: "制限はありません"
+- takeScreenshot: 06-current-limits
 - tapOn: "戻る"
-- tapOn: "権限の確認"
-- assertVisible: "通知がオフです"
-- takeScreenshot: 09-permissions
+# Limits tab
+- tapOn: "制限"
+- assertVisible: "まだ制限はありません"
+- takeScreenshot: 07-limits
+# Settings tab
+- tapOn: "設定"
+- assertVisible: "時間の単価"
+- takeScreenshot: 08-settings
+- tapOn:
+    id: "settings-rate"
+- assertVisible: ".*1,500円／時間.*"
+- takeScreenshot: 09-rate-sheet
+- tapOn: "キャンセル"
+- tapOn:
+    id: "settings-screentime"
+- assertVisible: "スクリーンタイム"
+- takeScreenshot: 10-permissions
+- tapOn: "戻る"
+# Rule editor sheet (opened by deep link; picking apps needs Screen Time on a device)
+- openLink: "timeismoney://limit-editor"
+- assertVisible: "制限の追加"
+- takeScreenshot: 11-editor-daily
+- tapOn: "曜日別"
+- assertVisible: "月曜日"
+- takeScreenshot: 12-editor-weekly
+- tapOn: "キャンセル"
