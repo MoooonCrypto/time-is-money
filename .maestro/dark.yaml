@@ -6,7 +6,8 @@ appId: com.example.timeismoney
     text: "Open"
     optional: true
 - extendedWaitUntil:
-    visible: "¥ --"
+    visible:
+      id: "meter-placeholder"
     timeout: 60000
 - takeScreenshot: 13-dark-home
 - tapOn:

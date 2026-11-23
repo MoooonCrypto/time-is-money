@@ -24,7 +24,8 @@ appId: com.example.timeismoney
     id: "onboarding-next"
 # Home
 - extendedWaitUntil:
-    visible: "¥ --"
+    visible:
+      id: "meter-placeholder"
     timeout: 20000
 - assertVisible: "今週"
 - takeScreenshot: 04-home
