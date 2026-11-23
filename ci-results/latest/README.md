@@ -1,17 +1,15 @@
-# iOS CI run 7
+# iOS CI run 8
 
-- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45063747839
-- Commit: 58f6393e3e9ac6515db31e16efca236a37a26dbf
-- Video: artifact `ios-ci-7` (ui-flow.mp4)
+- Run: https://github.com/MoooonCrypto/time-is-money/actions/runs/45093204369
+- Commit: 681851d01e54a97d60d30f39811a41badc20a08d
+- Video: artifact `ios-ci-8` (ui-flow.mp4)
 
 ![00-warmup-launch.jpg](00-warmup-launch.jpg)
-![01-welcome.jpg](01-welcome.jpg)
-![02-rate-preview.jpg](02-rate-preview.jpg)
-![03-screentime-explain.jpg](03-screentime-explain.jpg)
-![04-notification-explain.jpg](04-notification-explain.jpg)
-![05-first-limit-needs-permission.jpg](05-first-limit-needs-permission.jpg)
-![06-home-needs-permission.jpg](06-home-needs-permission.jpg)
-![07-limits-empty.jpg](07-limits-empty.jpg)
-![08-rate-edit.jpg](08-rate-edit.jpg)
-![09-permissions.jpg](09-permissions.jpg)
-![10-screentime-request-result.jpg](10-screentime-request-result.jpg)
+![01-onboarding-rate.jpg](01-onboarding-rate.jpg)
+![02-onboarding-permissions.jpg](02-onboarding-permissions.jpg)
+![03-onboarding-first-limit.jpg](03-onboarding-first-limit.jpg)
+![04-home.jpg](04-home.jpg)
+![13-dark-home.jpg](13-dark-home.jpg)
+![14-dark-limits.jpg](14-dark-limits.jpg)
+![15-dark-settings.jpg](15-dark-settings.jpg)
+![zz-after-failure.jpg](zz-after-failure.jpg)
