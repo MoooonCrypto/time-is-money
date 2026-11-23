@@ -64,7 +64,9 @@ appId: com.example.timeismoney
 - tapOn:
     text: "Open"
     optional: true
-- assertVisible: "制限の追加"
+- extendedWaitUntil:
+    visible: "制限の追加"
+    timeout: 15000
 - takeScreenshot: 11-editor-daily
 - tapOn: "曜日別"
 - assertVisible: "月曜日"

@@ -32,7 +32,7 @@ export default function CurrentLimits() {
 
       {statuses.length === 0 ? (
         <EmptyState icon="hourglass" title="制限はありません" message="使いすぎたくないアプリを選んで、1日の上限を決めましょう。">
-          <Button title="制限を追加" icon="plus" onPress={() => router.push("/limit-editor")} />
+          <Button title="制限を追加" icon="plus" disabled={store.screenTimeStatus !== "approved"} onPress={() => router.push("/limit-editor")} />
         </EmptyState>
       ) : (
         <Section

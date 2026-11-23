@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { configureForegroundPresentation, routeForNotificationResponse } from "../native/notifications";
 import { AppStoreProvider } from "../state/AppStore";
-import { headerOptions, sheetOptions } from "../ui/navigation";
+import { useHeaderOptions } from "../ui/navigation";
 
 configureForegroundPresentation();
 
@@ -29,6 +29,8 @@ function useNotificationRouting() {
 
 export default function RootLayout() {
   useNotificationRouting();
+  const headerOptions = useHeaderOptions("push");
+  const sheetOptions = useHeaderOptions("sheet");
   return (
     <SafeAreaProvider>
       <AppStoreProvider>
