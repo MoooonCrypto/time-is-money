@@ -55,31 +55,26 @@ struct UsageReportHost: View {
       DeviceActivityReport(report.0, filter: report.1)
         .id("\(model.range)-\(model.refreshToken)")
     }
-    .background(Color(.systemGroupedBackground))
+    .background(Color(.systemBackground))
   }
 }
 
 struct ReportSkeleton: View {
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
-      VStack(alignment: .leading, spacing: 10) {
-        Text("今日のiPhone全体").font(.subheadline)
-        Text("12,345円").font(.system(size: 48, weight: .bold, design: .rounded))
-        Text("合計 0時間00分").font(.headline)
+    // Same shape as the meter while the extension renders (no spinner).
+    VStack(alignment: .leading, spacing: 14) {
+      Text("¥12,345").font(.system(size: 56, weight: .bold, design: .rounded))
+      Text("今日 2時間30分").font(.subheadline)
+      Capsule().frame(height: 10)
+      VStack(alignment: .leading, spacing: 18) {
+        ForEach(0..<4, id: \.self) { _ in HStack { Text("アプリの名前"); Spacer(); Text("¥1,234") } }
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(20)
-      .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Color(.secondarySystemGroupedBackground)))
-      VStack(alignment: .leading, spacing: 14) {
-        ForEach(0..<4, id: \.self) { _ in
-          HStack { Text("アプリ名アプリ名"); Spacer(); Text("1,234円") }
-        }
-      }
-      .padding(20)
-      .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Color(.secondarySystemGroupedBackground)))
+      .padding(.top, 20)
     }
     .redacted(reason: .placeholder)
+    .padding(.horizontal, 20)
     .padding(.vertical, 4)
+    .frame(maxWidth: .infinity, alignment: .leading)
     .accessibilityLabel("利用データを取得中")
   }
 }

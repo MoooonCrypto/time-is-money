@@ -5,70 +5,66 @@ appId: com.example.timeismoney
 - launchApp:
     clearState: true
 - extendedWaitUntil:
-    visible: ".*いくら.*"
+    visible: "スマホに使った時間を、この金額で数えます。"
     timeout: 90000
 - tapOn:
     id: "rate-input"
 - inputText: "1500"
-- assertVisible: ".*3,000円.*"
+- assertVisible: "180,000円"
 - takeScreenshot: 01-onboarding-rate
 - tapOn:
     id: "onboarding-next"
-- assertVisible: "アクセスの許可"
+- assertVisible: "2つの許可"
 - takeScreenshot: 02-onboarding-permissions
 - tapOn:
     id: "onboarding-next"
 - assertVisible: "最初の制限"
 - takeScreenshot: 03-onboarding-first-limit
-# Without Screen Time access the only action is "はじめる".
 - tapOn:
     id: "onboarding-next"
-# Home tab
+# Home
 - extendedWaitUntil:
-    visible: "Time Is Money"
+    visible: "¥ --"
     timeout: 20000
 - assertVisible: "今週"
-- assertVisible: "スクリーンタイムへのアクセスが必要です"
 - takeScreenshot: 04-home
-- scrollUntilVisible:
-    element: "時間の単価.*"
-    direction: DOWN
-- assertVisible: ".*1,500円／時間.*"
-- takeScreenshot: 05-home-scrolled
+# Settings (gear)
 - tapOn:
-    id: "row-current-limits"
-- assertVisible: "制限はありません"
-- takeScreenshot: 06-current-limits
-- tapOn: "戻る"
-# Limits tab
-- tapOn: "制限"
-- assertVisible: "まだ制限はありません"
-- takeScreenshot: 07-limits
-# Settings tab
-- tapOn: "設定"
-- assertVisible: "時間の単価.*"
-- takeScreenshot: 08-settings
+    id: "open-settings"
+- assertVisible: "1時間の価値.*"
+- takeScreenshot: 05-settings
 - tapOn:
     id: "settings-rate"
-- assertVisible: ".*1,500円／時間.*"
-- takeScreenshot: 09-rate-sheet
+- extendedWaitUntil:
+    visible: "1時間あたり（円）"
+    timeout: 15000
+- takeScreenshot: 06-rate-sheet
 - tapOn: "キャンセル"
 - tapOn:
     id: "settings-screentime"
-- assertVisible: "スクリーンタイム"
-- takeScreenshot: 10-permissions
+- assertVisible: "状態を再確認"
+- takeScreenshot: 07-permissions
 - tapOn: "戻る"
-# Rule editor sheet (opened by deep link; picking apps needs Screen Time on a device)
+- tapOn: "戻る"
+# Rule editor sheet (deep link; picking apps needs Screen Time on a device)
 - openLink: "timeismoney://limit-editor"
-# iOS asks "Open in \"Time Is Money\"?" for URL-scheme launches from the simulator.
 - tapOn:
     text: "Open"
     optional: true
 - extendedWaitUntil:
     visible: "制限の追加"
     timeout: 15000
-- takeScreenshot: 11-editor-daily
+- takeScreenshot: 08-editor
 - tapOn: "曜日別"
 - assertVisible: "月曜日"
-- takeScreenshot: 12-editor-weekly
+- takeScreenshot: 09-editor-weekly
 - tapOn: "キャンセル"
+# Limits list
+- openLink: "timeismoney://limits"
+- tapOn:
+    text: "Open"
+    optional: true
+- extendedWaitUntil:
+    visible: "まだ制限はありません.*"
+    timeout: 15000
+- takeScreenshot: 10-limits

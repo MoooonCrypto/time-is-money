@@ -21,7 +21,7 @@ describe("RateEditor", () => {
     const onSubmit = jest.fn();
     await render(<Harness onSubmit={onSubmit} />);
     await fireEvent.changeText(screen.getByTestId("rate-input"), "1,500");
-    expect(screen.getByText("円換算プレビュー（1,500円／時間）")).toBeTruthy();
+    expect(screen.getByText("1日4時間を1か月")).toBeTruthy();
     expect(screen.getByText("25円")).toBeTruthy(); // 1 minute
     expect(screen.getByText("3,000円")).toBeTruthy(); // 2 hours
     await fireEvent.press(screen.getByTestId("submit"));
@@ -33,7 +33,7 @@ describe("RateEditor", () => {
     await render(<Harness onSubmit={onSubmit} />);
     await fireEvent.changeText(screen.getByTestId("rate-input"), "abc");
     expect(screen.getByText("半角数字で入力してください")).toBeTruthy();
-    expect(screen.queryByText(/円換算プレビュー/)).toBeNull();
+    expect(screen.queryByText("1日2時間")).toBeNull();
     await fireEvent.press(screen.getByTestId("submit"));
     expect(onSubmit).not.toHaveBeenCalled();
   });

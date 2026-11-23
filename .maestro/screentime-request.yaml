@@ -6,9 +6,6 @@ appId: com.example.timeismoney
     text: "Open"
     optional: true
 - extendedWaitUntil:
-    visible: "Time Is Money"
-    timeout: 60000
-- extendedWaitUntil:
     visible:
       id: "request-screentime"
     timeout: 60000

@@ -60,7 +60,7 @@ describe("money", () => {
 
   test("rate preview", () => {
     const p = ratePreview(1500);
-    expect(p[0]).toEqual({ label: "1分あたり", yen: "25円" });
-    expect(p[2]).toEqual({ label: "2時間", yen: "3,000円" });
+    expect(p[0]).toEqual({ label: "1分", yen: "25円" });
+    expect(p[2]).toEqual({ label: "1日2時間", yen: "3,000円" });
   });
 });

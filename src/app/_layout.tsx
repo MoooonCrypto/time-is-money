@@ -29,18 +29,23 @@ function useNotificationRouting() {
 
 export default function RootLayout() {
   useNotificationRouting();
-  const headerOptions = useHeaderOptions("push");
-  const sheetOptions = useHeaderOptions("sheet");
+  const plain = useHeaderOptions("plain");
+  const grouped = useHeaderOptions("grouped");
+  const sheet = useHeaderOptions("sheet");
   return (
     <SafeAreaProvider>
       <AppStoreProvider>
         <StatusBar style="auto" />
-        <Stack screenOptions={headerOptions}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack screenOptions={plain}>
+          <Stack.Screen name="index" options={{ headerShown: false, title: "今日" }} />
           <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false, animation: "fade" }} />
-          <Stack.Screen name="limit-editor" options={{ ...sheetOptions, title: "制限" }} />
-          <Stack.Screen name="rate" options={{ ...sheetOptions, title: "時間の単価" }} />
+          <Stack.Screen name="limits" options={{ title: "制限" }} />
+          <Stack.Screen name="settings" options={{ ...grouped, title: "設定" }} />
+          <Stack.Screen name="permissions" options={{ ...grouped, title: "アクセス許可" }} />
+          <Stack.Screen name="dev" options={{ ...grouped, title: "開発用" }} />
           <Stack.Screen name="stats" options={{ title: "統計" }} />
+          <Stack.Screen name="limit-editor" options={{ ...sheet, title: "制限" }} />
+          <Stack.Screen name="rate" options={{ ...sheet, title: "1時間の価値" }} />
         </Stack>
       </AppStoreProvider>
     </SafeAreaProvider>

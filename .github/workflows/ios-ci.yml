@@ -3,10 +3,11 @@ name: iOS CI
 # Builds the app (all Swift targets) for the iOS Simulator, runs a Maestro UI
 # flow on a simulator with video + screenshots, and publishes the screenshots
 # to ci-results/latest on the same branch. No signing (CODE_SIGNING_ALLOWED=NO).
-# Manual only (Actions tab > iOS CI > Run workflow). Automatic runs on push were
-# disabled on request after repeated simulator-stage failures; the build itself passed.
 on:
   workflow_dispatch:
+  push:
+    branches: [claude/kind-fermat-30o1am]
+    paths-ignore: ["ci-results/**", "**/*.md"]
 
 concurrency:
   group: ios-ci-${{ github.ref }}

@@ -1,28 +1,16 @@
 import { router, Stack } from "expo-router";
 import React from "react";
-import { Pressable } from "react-native";
 
 import { RateEditor, useRateInput } from "../components/RateEditor";
 import { useAppStore } from "../state/AppStore";
-import { Button, haptic, Screen, T } from "../ui/components";
-import { color } from "../ui/theme";
+import { Button, haptic, HeaderAction, Screen } from "../ui/components";
 
 export default function RateSheet() {
   const store = useAppStore();
   const input = useRateInput(store.config.hourlyRateYen);
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerLeft: () => (
-            <Pressable accessibilityRole="button" onPress={() => router.back()} hitSlop={10}>
-              <T variant="body" color={color.accent}>
-                キャンセル
-              </T>
-            </Pressable>
-          ),
-        }}
-      />
+      <Stack.Screen options={{ headerLeft: () => <HeaderAction label="キャンセル" onPress={() => router.back()} /> }} />
       <Screen
         footer={
           <Button
@@ -39,7 +27,7 @@ export default function RateSheet() {
           />
         }
       >
-        <RateEditor input={input} />
+        <RateEditor input={input} autoFocus />
       </Screen>
     </>
   );

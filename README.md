@@ -138,14 +138,14 @@ Swift のコンパイルは GitHub Actions（macOS / Xcode 26.6、iOS Simulator 
 
 ---
 
-## デザイン方針（Apple Human Interface Guidelines）
-参考にした Claude スキル：`wshobson/agents` の mobile-ios-design、`ehmo/platform-design-skills` の iOS design guidelines。
-- ネイティブタブバー（ホーム／制限／設定、SF Symbols）、タブごとのスタック、本文内のラージタイトル、不透明ヘッダー
-- トークン（`src/ui/theme.ts`）：セマンティックなシステムカラー（ダークモード・コントラスト増強に追従）、操作色はインディゴ1色、HIG の文字サイズ、8pt グリッド、タップ領域 44pt 以上、連続曲線の角丸
-- 部品（`src/ui/components.tsx`）：inset grouped リスト、設定アプリ風のアイコンタイル、状態ピル（色だけに頼らずアイコンと文字を併記）、インラインの Notice（重要でない情報にアラートを使わない）、ネイティブのセグメントコントロール、触覚フィードバック
-- オンボーディング：3ページ・スキップ可。権限は用途の説明カードを見てから個別に許可。主ボタンは常に1つで画面下部に固定
-- 編集・単価はシートで表示（キャンセルは上部、保存は下部に固定）。破壊的な確認はアクションシート
-- レポート拡張（SwiftUI）：円の大きなヒーローカード、丸ゴシックの等幅数字、今日を強調した週グラフ、横棒付きのアプリ別行、読み込み中はスケルトン表示
+## デザイン方針
+正本は [docs/DESIGN.md](docs/DESIGN.md)。Anthropic の frontend-design、Draftbit の mobile-taste（React Native 向けの「AIっぽさ」の兆候カタログと採点基準）、ios-taste、ios-ui-craft、Apple HIG を調べたうえで、計画を作り、ありがちな既定値と照らし合わせてから実装した。
+- コンセプトは「メーター」。ホームの主役は今日の金額と、2時間ごとの目盛り（＝円換算通知が届く点）が付いた0〜24時間の定規。ほかの要素は控えめにする。
+- タブバーなし（行き先が2つしかないため）。設定はホーム右上の歯車から開く。アプリ名の大見出しは置かない。
+- 操作色は銅色1色（ライト #A8541A／ダーク #F0A35E、白背景でコントラスト 5.3:1）。背景と文字はシステムカラー。金額と時間だけ SF Pro Rounded の等幅数字。
+- 色付きアイコンタイル、カードの積み重ね、状態ピル、大文字ラベル、説明文の多用、ダッシュ（—）はやめた。区切りは余白と細い線で行い、inset grouped はフォームと設定だけ。
+- 確認ダイアログは破壊的な操作だけ（iOS ではアクションシート）。エラーは画面内に表示。触覚フィードバックは選択と確定のときだけ。
+- レポート拡張（SwiftUI）も同じメーターのデザイン。読み込み中はメーターと同じ形のスケルトンを出す。
 
 ## 4. 技術的制約（根拠つき）
 
@@ -245,8 +245,8 @@ App Group ID は `group.<本体 Bundle ID>` 固定の規約です（Swift 側は
 | iOS JS バンドル | `npx expo export --platform ios` | ✅ |
 | ネイティブ生成 | `npx expo prebuild -p ios --no-install --clean` | ✅ 5ターゲット、Report は ExtensionKit で埋め込み、entitlements と `_shared` のリンクを pbxproj で確認 |
 
-### GitHub Actions（`.github/workflows/ios-ci.yml`、**手動実行のみ**）
-macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。スクリーンショットとログは CI が `ci-results/latest/` にコミットする（動画は Actions の artifact）。push での自動実行は、シミュレータ段階の失敗が続いたため依頼により停止した。Actions タブ →「iOS CI」→「Run workflow」で手動実行できる。
+### GitHub Actions（`.github/workflows/ios-ci.yml`、push と手動実行）
+macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。スクリーンショットとログは CI が `ci-results/latest/` にコミットする（動画は Actions の artifact）。push での自動実行を、いったん停止したあと再開した（`ci-results/**` と `*.md` だけの変更では動かない）。
 
 | 検証 | 結果 |
 | --- | --- |

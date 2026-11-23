@@ -46,10 +46,10 @@ export interface RatePreviewLine {
 /** Preview shown while typing the hourly rate. */
 export function ratePreview(rate: number): RatePreviewLine[] {
   return [
-    { label: "1分あたり", yen: `${formatYen(yenFor(rate, 1))}円` },
-    { label: "30分", yen: `${formatYen(yenFor(rate, 30))}円` },
-    { label: "2時間", yen: `${formatYen(yenFor(rate, 120))}円` },
-    { label: "1日4時間 × 30日", yen: `${formatYen(yenFor(rate, 240) * 30)}円` },
+    { label: "1分", yen: `${formatYen(yenFor(rate, 1))}円` },
+    { label: "SNSを30分", yen: `${formatYen(yenFor(rate, 30))}円` },
+    { label: "1日2時間", yen: `${formatYen(yenFor(rate, 120))}円` },
+    { label: "1日4時間を1か月", yen: `${formatYen(yenFor(rate, 240) * 30)}円` },
   ];
 }
 

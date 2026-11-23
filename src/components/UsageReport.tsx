@@ -1,16 +1,17 @@
-// Hosts the DeviceActivityReport rendered by the report extension (SwiftUI).
-// Usage numbers never reach JS; this only picks the range and handles the
-// states where the report cannot be shown.
+// The meter. With Screen Time access the report extension (SwiftUI) draws it with
+// real data; usage never reaches JS. Without access we draw the same shape empty,
+// never "0".
+import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { NativeUsageReportView, type UsageRange } from "../../modules/screen-time";
-import { homeDataState } from "../domain/permissions";
+import { formatYen } from "../domain/money";
+import { homeDataState, screenTimeAction } from "../domain/permissions";
 import { screenTime } from "../native/screenTime";
 import { useAppStore } from "../state/AppStore";
-import { Notice, T } from "../ui/components";
-import { color, radius, space } from "../ui/theme";
-import { ScreenTimeRequiredCard } from "./Permissions";
+import { Button, HourRuler, T } from "../ui/components";
+import { color, space } from "../ui/theme";
 
 export const RANGE_OPTIONS: { value: UsageRange; label: string }[] = [
   { value: "today", label: "今日" },
@@ -19,61 +20,48 @@ export const RANGE_OPTIONS: { value: UsageRange; label: string }[] = [
 ];
 
 /** Height reserved for the native report (it scrolls inside if longer). */
-const REPORT_HEIGHT = { today: 560, week: 720, total: 600 } as const;
+const REPORT_HEIGHT = { today: 520, week: 640, total: 560 } as const;
 
 export function UsageReport({ range }: { range: UsageRange }) {
   const store = useAppStore();
   const state = homeDataState(store.screenTimeStatus);
+  const rate = store.config.hourlyRateYen;
 
-  if (screenTime.kind === "mock") return <DevMockReport range={range} />;
-  if (state === "screenTimeUnavailable" || !NativeUsageReportView) {
+  if (state === "ready" && NativeUsageReportView && screenTime.kind === "native") {
     return (
-      <Notice
-        tone="neutral"
-        icon="iphone.slash"
-        title="この環境では利用時間を取得できません"
-        message="iPhoneの開発ビルドでスクリーンタイムを許可すると表示されます。"
-      />
-    );
-  }
-  if (state === "checking") {
-    return (
-      <View style={[s.report, s.checking]} accessibilityLabel="利用データを確認中">
-        <ActivityIndicator />
-        <T variant="footnote" color={color.secondaryLabel}>
-          スクリーンタイムの状態を確認中…
-        </T>
+      <View style={{ height: REPORT_HEIGHT[range], marginHorizontal: -space.screen }}>
+        <NativeUsageReportView style={StyleSheet.absoluteFill} range={range} refreshToken={store.refreshToken} />
       </View>
     );
   }
-  if (state === "needsScreenTimePermission") return <ScreenTimeRequiredCard />;
-  return (
-    <View style={[s.report, { height: REPORT_HEIGHT[range] }]}>
-      <NativeUsageReportView style={StyleSheet.absoluteFill} range={range} refreshToken={store.refreshToken} />
-    </View>
-  );
-}
 
-/** Development-only placeholder (EXPO_PUBLIC_TIM_MOCK=1). Clearly labelled; never in release builds. */
-function DevMockReport({ range }: { range: UsageRange }) {
+  const action = screenTimeAction(store.screenTimeStatus, store.screenTimeRequestedThisSession);
+  const message =
+    state === "checking"
+      ? "スクリーンタイムの状態を確認しています。"
+      : state === "screenTimeUnavailable"
+        ? "この端末では利用時間を取得できません。iPhoneでスクリーンタイムを許可すると表示されます。"
+        : "スクリーンタイムを許可すると、使った時間をこの金額で表示します。";
+
   return (
-    <View style={[s.report, { padding: space.l, gap: space.s, borderWidth: 1, borderColor: color.warning, borderStyle: "dashed" }]}>
-      <T variant="footnote" color={color.warning} weight="600">
-        開発用ダミー表示（実データではありません）
-      </T>
+    <View style={{ gap: space.l }} testID="meter-placeholder">
+      <View>
+        <T variant="display" color={color.tertiaryLabel} accessibilityLabel="金額は未取得">
+          ¥ --
+        </T>
+        <T variant="subheadline" color={color.secondaryLabel}>
+          {rate ? `1時間 ${formatYen(rate)}円で換算` : "1時間の価値が未設定です"}
+        </T>
+      </View>
+      <HourRuler hours={null} />
       <T variant="subheadline" color={color.secondaryLabel}>
-        実機では DeviceActivityReport 拡張がここに「{range}」の利用時間・円換算・アプリ別内訳を描画します。
+        {message}
       </T>
+      {action.kind === "request" ? (
+        <Button testID="request-screentime" title="スクリーンタイムを許可" onPress={() => void store.requestScreenTime()} />
+      ) : action.kind === "openSettings" ? (
+        <Button kind="secondary" title="許可の方法を見る" onPress={() => router.push("/permissions")} />
+      ) : null}
     </View>
   );
 }
-
-const s = StyleSheet.create({
-  checking: { height: 160, alignItems: "center", justifyContent: "center", gap: space.s, backgroundColor: color.card },
-  report: {
-    borderRadius: radius.card,
-    borderCurve: "continuous",
-    overflow: "hidden",
-    backgroundColor: color.background,
-  },
-});
