@@ -59,6 +59,10 @@ appId: com.example.timeismoney
 - tapOn: "戻る"
 # Rule editor sheet (opened by deep link; picking apps needs Screen Time on a device)
 - openLink: "timeismoney://limit-editor"
+# iOS asks "Open in \"Time Is Money\"?" for URL-scheme launches from the simulator.
+- tapOn:
+    text: "Open"
+    optional: true
 - assertVisible: "制限の追加"
 - takeScreenshot: 11-editor-daily
 - tapOn: "曜日別"

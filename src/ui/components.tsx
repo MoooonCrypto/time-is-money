@@ -260,7 +260,8 @@ export function Row({
     <Pressable
       testID={testID}
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel ?? title}
+      // Include subtitle/value so VoiceOver reads the whole row (the children are merged).
+      accessibilityLabel={accessibilityLabel ?? [title, subtitle, value].filter(Boolean).join("、")}
       accessibilityState={{ disabled: !!disabled }}
       disabled={disabled}
       onPress={() => {
