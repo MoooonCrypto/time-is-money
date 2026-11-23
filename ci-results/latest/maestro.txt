@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (1m 2s) (Assertion is false: "¥ --" is visible)
+[Passed] onboarding (2m 24s)
 
-1/1 Flow Failed
+1/1 Flow Passed in 2m 24s
 
