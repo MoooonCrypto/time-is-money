@@ -5,12 +5,17 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 
 ## ビルド検証の状況
 
-- クラウドの Linux コンテナでは Swift をビルドできない（ツールチェーンなし、`download.swift.org` も遮断）。
-- 代わりに **GitHub Actions の macOS ランナー**（`.github/workflows/ios-ci.yml`）で、全 Swift ターゲットの Simulator 向けビルド（署名なし）、TIMCore テスト、Maestro の UI テストを実行している。2026-11-22 の run 7 が最新の成功（run 4 も成功。run 5・6 は下記の白画面リグレッションで失敗）。結果は `ci-results/latest/`（スクリーンショット、ログ、4秒ごとのフレーム）。
-- CI で確認できないもの：署名と entitlements、Screen Time の実動作（シミュレータでは認可ダイアログも出ない）。
+- クラウドの Linux コンテナでは Swift をビルドできない。macOS のビルドは GitHub Actions（`.github/workflows/ios-ci.yml`）で行い、全 Swift ターゲットの Simulator 向けビルドは run 1〜11 ですべて成功した。
+- **CI は現在「手動実行のみ」**（シミュレータ段階の失敗が続いたため、依頼により push での自動実行を停止）。Actions タブ →「iOS CI」→「Run workflow」で実行する。
+- 最後に画面まで確認できたのは run 11（ライトの 01〜10、ダークの全画面）。それ以降の修正は、コード検証だけ通した状態で未確認：
+  - ダークモードでシートのヘッダー色が明るいままになる問題（`src/ui/navigation.ts` の `useHeaderOptions`）
+  - 編集カード内の区切り線
+  - 権限がないときの「制限を追加」ボタン無効化
+  - Maestro で編集シートの表示を待つステップ（`extendedWaitUntil`）
+- 起動時の白画面の原因は、Screen Time の認可状態を JS スレッドで同期的に読んでいたこと（XPC が止まる）。非同期化で解消済み。**ネイティブの同期 API を描画中に呼ばないこと。**
 
 ### CI の運用メモ
-- push（`claude/kind-fermat-30o1am`、`ci-results/**` と `*.md` 以外の変更）または手動実行で起動する。1回あたり約30〜35分（xcodebuild 約15分、シミュレータ起動 約10分）。
+- 手動実行のみ。1回あたり約35〜40分（xcodebuild 約15分、シミュレータ起動 約10分）。
 - CI が `ci-results: …[skip ci]` コミットをブランチへ push するので、作業前に `git pull` すること。
 - Maestro の iOS ドライバが起動待ちでタイムアウトすることがある → 待ち時間を延長し、暖機と1回の再試行を入れてある。
 - `takeScreenshot` は相対名で指定する（絶対パスは Maestro が拒否する）。`appId` は直接書く（`${APP_ID}` は展開されなかった）。
@@ -45,6 +50,9 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 
 ## 積み残し（未実装・改善）
 
+- [ ] CI を1回手動実行し、最終修正（ダークのシートヘッダーなど）を画面で確認する
+- [ ] 実機で新 UI のレイアウト・ダークモード・Dynamic Type（大きい文字サイズ）を目視確認する
+
 - [ ] アプリアイコンとスプラッシュが Expo テンプレートのまま（`assets/`）
 - [ ] Family Controls (Distribution) の申請：TestFlight 配布の前に、本体と4拡張の計5つの Bundle ID すべてで必要
 - [ ] Swift 側の Scheduler / ShieldController に自動テストがない（ManagedSettings / DeviceActivity に依存するため、実機確認で代替している）
@@ -55,7 +63,7 @@ README.md の「3. 実装状況」「7. 実機で確認する順番」「9. ク�
 - [ ] apple-targets のパッチ（device-activity-report 型）は、upstream が対応したら削除する。apple-targets を更新する場合はパッチを作り直す
 - [ ] UI テストは権限なしの経路だけ。ルール編集画面などは Screen Time 認可が必要なので、シミュレータでは届かない（Debug ビルド + `EXPO_PUBLIC_TIM_MOCK=1` で Maestro を回す案あり）
 - [x] ヘッダー下に入り込む不具合：不透明ヘッダーで修正し、run 7 で確認
-- [ ] `contentInsetAdjustmentBehavior="automatic"` を `Screen` の ScrollView に付けると、シミュレータでアプリが白画面のまま描画されなかった（run 5・6）。原因は未特定。同じ手法は使わないこと
+- [x] 白画面（run 5・6・9）の原因は ScrollView ではなく、認可状態の同期読み込み（上記）だった
 - [ ] 実機でも全画面のレイアウトを目視確認する
 - [ ] `.claude/settings.json` は create-expo-app テンプレート由来の設定（Expo プラグインの有効化）。不要なら削除してよい
 

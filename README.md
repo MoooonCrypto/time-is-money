@@ -110,6 +110,7 @@ scripts/test-swift-core.sh    Swift 共有ロジックのテスト（Mac で実�
 ## 3. 実装状況
 
 ### 実装済み（コード）
+- UI は Apple HIG に沿って全面刷新（下記「デザイン方針」）
 - オンボーディング：単価入力（円換算プレビュー）→ スクリーンタイム許可（事前説明→OSダイアログ）→ 通知許可（事前説明→OSダイアログ）→ 最初のアプリ制限（スキップ可）
 - 単価の変更画面、権限画面（拒否検知・再申請・設定アプリ導線と操作案内・フォアグラウンド復帰時の再確認）
 - スクリーンタイム未許可時は利用時間を表示せず「許可が必要」を表示（0分表示はしない）。通知拒否でも制限・統計は動作
@@ -136,6 +137,15 @@ Swift のコンパイルは GitHub Actions（macOS / Xcode 26.6、iOS Simulator 
 - Report 拡張の描画と、App Group の単価を読めること
 
 ---
+
+## デザイン方針（Apple Human Interface Guidelines）
+参考にした Claude スキル：`wshobson/agents` の mobile-ios-design、`ehmo/platform-design-skills` の iOS design guidelines。
+- ネイティブタブバー（ホーム／制限／設定、SF Symbols）、タブごとのスタック、本文内のラージタイトル、不透明ヘッダー
+- トークン（`src/ui/theme.ts`）：セマンティックなシステムカラー（ダークモード・コントラスト増強に追従）、操作色はインディゴ1色、HIG の文字サイズ、8pt グリッド、タップ領域 44pt 以上、連続曲線の角丸
+- 部品（`src/ui/components.tsx`）：inset grouped リスト、設定アプリ風のアイコンタイル、状態ピル（色だけに頼らずアイコンと文字を併記）、インラインの Notice（重要でない情報にアラートを使わない）、ネイティブのセグメントコントロール、触覚フィードバック
+- オンボーディング：3ページ・スキップ可。権限は用途の説明カードを見てから個別に許可。主ボタンは常に1つで画面下部に固定
+- 編集・単価はシートで表示（キャンセルは上部、保存は下部に固定）。破壊的な確認はアクションシート
+- レポート拡張（SwiftUI）：円の大きなヒーローカード、丸ゴシックの等幅数字、今日を強調した週グラフ、横棒付きのアプリ別行、読み込み中はスケルトン表示
 
 ## 4. 技術的制約（根拠つき）
 
@@ -235,24 +245,24 @@ App Group ID は `group.<本体 Bundle ID>` 固定の規約です（Swift 側は
 | iOS JS バンドル | `npx expo export --platform ios` | ✅ |
 | ネイティブ生成 | `npx expo prebuild -p ios --no-install --clean` | ✅ 5ターゲット、Report は ExtensionKit で埋め込み、entitlements と `_shared` のリンクを pbxproj で確認 |
 
-### GitHub Actions（`.github/workflows/ios-ci.yml`、push / 手動実行）
-macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。結果のスクリーンショットとログは CI が `ci-results/latest/` にコミットします（動画 `ui-flow.mp4` は Actions の artifact）。
+### GitHub Actions（`.github/workflows/ios-ci.yml`、**手動実行のみ**）
+macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。スクリーンショットとログは CI が `ci-results/latest/` にコミットする（動画は Actions の artifact）。push での自動実行は、シミュレータ段階の失敗が続いたため依頼により停止した。Actions タブ →「iOS CI」→「Run workflow」で手動実行できる。
 
 | 検証 | 結果 |
 | --- | --- |
-| `npm run verify`（ubuntu） | ✅ |
-| `npm run test:swift-core`（TIMCore を swiftc でビルド・実行） | ✅ |
-| `expo prebuild` + `pod install`（シンボリックリンク込み） | ✅ |
-| `xcodebuild`（Release / iOS Simulator / 署名なし、本体 Pod + 4拡張すべて） | ✅ 初回で成功 |
-| 拡張の埋め込み（`PlugIns/` に Monitor・ShieldConfig・ShieldAction、`Extensions/` に Report） | ✅ |
-| Maestro UI テスト（`.maestro/onboarding.yaml`：単価入力とプレビュー → 権限の事前説明 → スキップ → ホーム（許可が必要な表示・単価表示・期間切替）→ 制限設定 → 単価変更 → 権限画面） | ✅ |
-| シミュレータでスクリーンタイム許可をタップ（`.maestro/screentime-request.yaml`） | ダイアログは出ず状態も変わらない（シミュレータの制約。実機で確認） |
+| `npm run verify`、TIMCore の Swift テスト、prebuild + pod install | ✅（毎回） |
+| `xcodebuild`（Release / iOS Simulator / 署名なし、本体 Pod + 4拡張、expo-symbols・expo-haptics・セグメントコントロールを含む） | ✅（run 1〜11 すべて成功） |
+| 拡張の埋め込み（`PlugIns/` に3つ、`Extensions/` に Report） | ✅ |
+| Maestro UI テスト（新デザイン） | run 11：ライトモードの画面 01〜10 と、ダークモードの全画面（ホーム・制限・設定・編集シート）を通過。ライトモードで編集シートを開くステップだけ、表示待ちのタイミングで失敗 |
+| 最終修正（ダークモードのシートヘッダー色、編集カードの区切り線、権限なし時の追加ボタン無効化、Maestro の待機） | **シミュレータでは未確認**（run 12 の結果は未確認のまま CI を停止）。コード検証（型・lint・テスト・export・prebuild）は通過 |
 
-CI のスクリーンショットで見つけて直した不具合：スタック画面の中身が iOS 26 の半透明ヘッダーの下に潜り、ホームの「今日／今週／累計」が隠れていた。
-- 最初の修正（`ScrollView` に `contentInsetAdjustmentBehavior="automatic"`）では、run 5・6 でアプリが真っ白な画面のまま描画されなかった（2回再現）。この修正は取り消した。
-- 最終的な修正：`src/app/_layout.tsx` でネイティブヘッダーを不透明にした（`headerTransparent: false` と `headerStyle` の背景色）。run 7 で全画面が正しく表示されることと、Maestro の `今週` の表示確認が通ることを確認した。
+CI で見つけて直した主な不具合：
+- **起動時の白画面（run 5・6・9）**：最初の描画で `AuthorizationCenter.authorizationStatus` を JS スレッドから同期で読んでいた。これは FamilyControlsAgent への XPC 呼び出しで、ログに「Failed to get service proxy」が出て止まることがある。`AsyncFunction`（`getAuthorizationStatusAsync`）に変え、読み込み中は「確認中」と表示するようにした（run 10 以降は全起動で描画を確認）。当初は ScrollView の inset 変更が原因と判断したが、これは誤りだった。
+- iOS 26 の半透明ヘッダーの下に中身が潜る問題 → 不透明ヘッダーにした。
+- 行の VoiceOver ラベルにタイトルしか入っていなかった → 値と補足も読み上げる。
+- ダークモードでシートのヘッダーだけ明るい → `useColorScheme` からヘッダー色を決める（シミュレータ未確認）。
 
-シミュレータでは Screen Time（認可・Shield・監視・レポート）は検証できません。
+シミュレータでは Screen Time（認可・Shield・監視・レポート）は検証できない。
 
 ### 9. Macで最初に試すこと
 1. 署名：`.env.local` に `TIM_BUNDLE_ID` / `APPLE_TEAM_ID` を入れて `npx expo prebuild --clean -p ios` → `npx expo run:ios --device`（CI は署名なしなので、entitlements 付き署名は未確認）
