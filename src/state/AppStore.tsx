@@ -39,7 +39,7 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
   );
   const configRef = useRef(config);
   const loaded = true;
-  const [screenTimeStatus, setScreenTimeStatus] = useState<ScreenTimeStatus>(() => screenTime.getStatus());
+  const [screenTimeStatus, setScreenTimeStatus] = useState<ScreenTimeStatus>("checking");
   const [requested, setRequested] = useState(false);
   const [notificationStatus, setNotificationStatus] = useState<NotificationStatus>("undetermined");
   const [shieldRecords, setShieldRecords] = useState<ShieldRecord[]>([]);
@@ -69,8 +69,8 @@ export function AppStoreProvider({ children }: { children: React.ReactNode }) {
   }, [readNativeState]);
 
   const refresh = useCallback(async () => {
-    const notification = await getNotificationStatus();
-    setScreenTimeStatus(screenTime.getStatus());
+    const [notification, st] = await Promise.all([getNotificationStatus(), screenTime.getStatus()]);
+    setScreenTimeStatus(st);
     setNotificationStatus(notification);
     // New day? Drop history that no longer applies (pending changes become current).
     const compacted = compactConfig(configRef.current, new Date());

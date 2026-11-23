@@ -51,7 +51,9 @@ export interface DiagnosticsEntry {
 export interface ScreenTimeNativeModule {
   isSupported(): boolean;
   getAppGroupInfo(): { appGroup: string; available: boolean };
+  /** Synchronous; avoid on the JS thread (XPC to FamilyControlsAgent can stall). */
   getAuthorizationStatus(): AuthorizationStatus;
+  getAuthorizationStatusAsync(): Promise<AuthorizationStatus>;
   requestAuthorization(): Promise<AuthorizationStatus>;
   loadConfig(): string | null;
   saveConfig(json: string): void;

@@ -20,7 +20,8 @@ import type { ScreenTimeStatus } from "../domain/permissions";
 
 export interface ScreenTimeApi {
   readonly kind: "native" | "mock" | "unavailable";
-  getStatus(): ScreenTimeStatus;
+  /** Asynchronous so a slow FamilyControls agent can never block rendering. */
+  getStatus(): Promise<ScreenTimeStatus>;
   requestAuthorization(): Promise<ScreenTimeStatus>;
   loadConfig(): string | null;
   saveConfig(json: string): void;
@@ -36,7 +37,7 @@ export interface ScreenTimeApi {
 function nativeApi(m: ScreenTimeNativeModule): ScreenTimeApi {
   return {
     kind: "native",
-    getStatus: () => (m.isSupported() ? m.getAuthorizationStatus() : "unavailable"),
+    getStatus: async () => (m.isSupported() ? await m.getAuthorizationStatusAsync() : "unavailable"),
     requestAuthorization: async () => (await m.requestAuthorization()) as AuthorizationStatus,
     loadConfig: () => m.loadConfig(),
     saveConfig: (json) => m.saveConfig(json),
@@ -56,7 +57,7 @@ function unavailableApi(): ScreenTimeApi {
   let memoryConfig: string | null = null;
   return {
     kind: "unavailable",
-    getStatus: () => "unavailable",
+    getStatus: async () => "unavailable",
     requestAuthorization: async () => "unavailable",
     loadConfig: () => memoryConfig,
     saveConfig: (json) => {
@@ -80,7 +81,7 @@ export function createMockApi(): ScreenTimeApi {
   const selections = new Map<string, SelectionSummary>();
   return {
     kind: "mock",
-    getStatus: () => status,
+    getStatus: async () => status,
     requestAuthorization: async () => {
       status = "approved";
       return status;

@@ -16,6 +16,7 @@ export default function SettingsScreen() {
 
   const stPill =
     st === "approved" ? <StatusPill tone="success" icon="checkmark" label="許可済み" />
+    : st === "checking" ? <StatusPill tone="neutral" icon="ellipsis" label="確認中" />
     : st === "unavailable" ? <StatusPill tone="neutral" icon="minus" label="利用不可" />
     : <StatusPill tone="warning" icon="exclamationmark" label="未許可" />;
   const ntPill =

@@ -1,7 +1,8 @@
 // Screen Time (FamilyControls) and notification permissions are independent.
 // Notification denial never blocks limits/statistics.
 
-export type ScreenTimeStatus = "notDetermined" | "denied" | "approved" | "unavailable";
+/** "checking" = not read yet (the native read is asynchronous). */
+export type ScreenTimeStatus = "checking" | "notDetermined" | "denied" | "approved" | "unavailable";
 export type NotificationStatus = "undetermined" | "denied" | "granted" | "provisional" | "unavailable";
 
 export type PermissionAction =
@@ -25,6 +26,7 @@ export function screenTimeAction(status: ScreenTimeStatus, requestedThisSession:
   switch (status) {
     case "approved":
     case "unavailable":
+    case "checking":
       return { kind: "none" };
     case "notDetermined":
       return { kind: "request", label: "スクリーンタイムへのアクセスを許可" };
@@ -51,10 +53,12 @@ export function notificationAction(status: NotificationStatus): PermissionAction
 
 export type HomeDataState =
   | "screenTimeUnavailable" // not iOS / native module missing
+  | "checking" // status not read yet: show a placeholder, never "0分" or a permission prompt
   | "needsScreenTimePermission"
   | "ready";
 
 export function homeDataState(status: ScreenTimeStatus): HomeDataState {
+  if (status === "checking") return "checking";
   if (status === "unavailable") return "screenTimeUnavailable";
   if (status !== "approved") return "needsScreenTimePermission";
   return "ready";

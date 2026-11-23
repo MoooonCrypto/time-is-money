@@ -6,6 +6,8 @@ describe("permissions", () => {
     expect(screenTimeAction("denied", false).kind).toBe("request");
     expect(screenTimeAction("denied", true).kind).toBe("openSettings");
     expect(screenTimeAction("approved", true).kind).toBe("none");
+    // Not read yet: no prompt, no button (the read is asynchronous)
+    expect(screenTimeAction("checking", false).kind).toBe("none");
   });
 
   test("notifications: denied can only be changed in Settings", () => {
@@ -19,5 +21,6 @@ describe("permissions", () => {
     expect(homeDataState("notDetermined")).toBe("needsScreenTimePermission");
     expect(homeDataState("unavailable")).toBe("screenTimeUnavailable");
     expect(homeDataState("approved")).toBe("ready");
+    expect(homeDataState("checking")).toBe("checking");
   });
 });

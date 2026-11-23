@@ -2,7 +2,7 @@
 // Usage numbers never reach JS; this only picks the range and handles the
 // states where the report cannot be shown.
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 import { NativeUsageReportView, type UsageRange } from "../../modules/screen-time";
 import { homeDataState } from "../domain/permissions";
@@ -36,6 +36,16 @@ export function UsageReport({ range }: { range: UsageRange }) {
       />
     );
   }
+  if (state === "checking") {
+    return (
+      <View style={[s.report, s.checking]} accessibilityLabel="利用データを確認中">
+        <ActivityIndicator />
+        <T variant="footnote" color={color.secondaryLabel}>
+          スクリーンタイムの状態を確認中…
+        </T>
+      </View>
+    );
+  }
   if (state === "needsScreenTimePermission") return <ScreenTimeRequiredCard />;
   return (
     <View style={[s.report, { height: REPORT_HEIGHT[range] }]}>
@@ -59,6 +69,7 @@ function DevMockReport({ range }: { range: UsageRange }) {
 }
 
 const s = StyleSheet.create({
+  checking: { height: 160, alignItems: "center", justifyContent: "center", gap: space.s, backgroundColor: color.card },
   report: {
     borderRadius: radius.card,
     borderCurve: "continuous",

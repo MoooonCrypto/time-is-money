@@ -94,6 +94,8 @@ export function PermissionCard({ kind }: { kind: "screenTime" | "notifications" 
           <StatusPill tone="success" icon="checkmark" label="許可済み" />
         ) : unavailable ? (
           <StatusPill tone="neutral" icon="minus" label="利用不可" />
+        ) : status === "checking" ? (
+          <StatusPill tone="neutral" icon="ellipsis" label="確認中" />
         ) : status === "denied" ? (
           <StatusPill tone="destructive" icon="xmark" label="オフ" />
         ) : null}

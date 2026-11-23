@@ -28,6 +28,12 @@ public final class ScreenTimeModule: Module {
       return Self.statusString()
     }
 
+    // Preferred: reading the status talks to FamilyControlsAgent over XPC and can
+    // stall (seen on simulators). Never do that synchronously on the JS thread.
+    AsyncFunction("getAuthorizationStatusAsync") { () -> String in
+      return Self.statusString()
+    }
+
     AsyncFunction("requestAuthorization") { () async -> String in
       do {
         try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
