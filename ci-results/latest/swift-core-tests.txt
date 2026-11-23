@@ -1,5 +1,0 @@
-
-> time-is-money@1.0.0 test:swift-core
-> bash scripts/test-swift-core.sh
-
-TIMCore: all checks passed

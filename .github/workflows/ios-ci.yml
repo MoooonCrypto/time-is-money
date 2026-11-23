@@ -1,20 +1,19 @@
 name: iOS CI
 
-# Builds the app (all Swift targets) for the iOS Simulator, runs a Maestro UI
-# flow on a simulator with video + screenshots, and publishes the screenshots
-# to ci-results/latest on the same branch. No signing (CODE_SIGNING_ALLOWED=NO).
+# Manual only: Actions tab > "iOS CI" > Run workflow (choose a branch).
+# Builds the app (all Swift targets) for the iOS Simulator without signing
+# (CODE_SIGNING_ALLOWED=NO), runs the Maestro UI flows in light and dark mode,
+# and uploads screenshots, video and logs as a workflow artifact.
+# It never writes to the repository (read-only token, no commits or pushes).
 on:
   workflow_dispatch:
-  push:
-    branches: [claude/kind-fermat-30o1am]
-    paths-ignore: ["ci-results/**", "**/*.md"]
 
 concurrency:
   group: ios-ci-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   js:
@@ -160,30 +159,3 @@ jobs:
           name: ios-ci-${{ github.run_number }}
           path: artifacts/
           if-no-files-found: warn
-
-      - name: Publish screenshots to ci-results/latest
-        if: always() && github.ref == 'refs/heads/claude/kind-fermat-30o1am'
-        run: |
-          rm -rf ci-results/latest && mkdir -p ci-results/latest
-          cp artifacts/*.png artifacts/*.txt artifacts/*.xml artifacts/*.json ci-results/latest/ 2>/dev/null || true
-          rm -f ci-results/latest/xcodebuild.log ci-results/latest/app-log.txt
-          mkdir -p ci-results/latest/frames ci-results/latest/maestro-debug
-          cp artifacts/frames/*.jpg ci-results/latest/frames/ 2>/dev/null || true
-          for f in artifacts/maestro-debug/*.png; do [ -e "$f" ] && sips -s format jpeg -Z 700 "$f" --out "ci-results/latest/maestro-debug/$(basename "${f%.png}").jpg" >/dev/null; done
-          cp artifacts/maestro-debug/maestro.log ci-results/latest/maestro-debug/ 2>/dev/null || true
-          for f in ci-results/latest/*.png; do sips -s format jpeg -Z 900 "$f" --out "${f%.png}.jpg" >/dev/null && rm "$f"; done
-          {
-            echo "# iOS CI run ${{ github.run_number }}"
-            echo
-            echo "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            echo "- Commit: ${{ github.sha }}"
-            echo "- Video: artifact \`ios-ci-${{ github.run_number }}\` (ui-flow.mp4)"
-            echo
-            for f in ci-results/latest/*.jpg; do [ -e "$f" ] && echo "![$(basename "$f")]($(basename "$f"))"; done
-          } > ci-results/latest/README.md
-          cp ci-results/latest/README.md "$GITHUB_STEP_SUMMARY" || true
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ci-results/latest
-          git commit -m "ci: results of run ${{ github.run_number }} [skip ci]" || exit 0
-          git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

@@ -245,8 +245,8 @@ App Group ID は `group.<本体 Bundle ID>` 固定の規約です（Swift 側は
 | iOS JS バンドル | `npx expo export --platform ios` | ✅ |
 | ネイティブ生成 | `npx expo prebuild -p ios --no-install --clean` | ✅ 5ターゲット、Report は ExtensionKit で埋め込み、entitlements と `_shared` のリンクを pbxproj で確認 |
 
-### GitHub Actions（`.github/workflows/ios-ci.yml`、push と手動実行）
-macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。スクリーンショットとログは CI が `ci-results/latest/` にコミットする（動画は Actions の artifact）。push での自動実行を、いったん停止したあと再開した（`ci-results/**` と `*.md` だけの変更では動かない）。
+### GitHub Actions（`.github/workflows/ios-ci.yml`、手動実行のみ）
+macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）。Actions タブ →「iOS CI」→「Run workflow」で手動実行する。スクリーンショット・動画・ログは artifact（`ios-ci-<番号>`）としてダウンロードできる。ワークフローの権限は読み取りのみで、リポジトリへのコミットや push はしない（検証中に使っていた `ci-results/` への自動コミットと push での自動実行は撤去した）。
 
 | 検証 | 結果 |
 | --- | --- |
