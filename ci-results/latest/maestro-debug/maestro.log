@@ -1,125 +1,193 @@
-01:45:35.541 [ INFO] maestro.cli.report.TestDebugReporter.logSystemInfo: Debug output path: /Users/runner/.maestro/tests/2026-11-23_014535
-01:45:35.546 [ INFO] MAESTRO.logSystemInfo: ---- System Info ----
-01:45:35.546 [ INFO] MAESTRO.logSystemInfo: Maestro Version: 2.12.1
-01:45:35.548 [ INFO] MAESTRO.logSystemInfo: CI: github
-01:45:35.551 [ INFO] MAESTRO.logSystemInfo: OS Name: Mac OS X
-01:45:35.551 [ INFO] MAESTRO.logSystemInfo: OS Version: 26.7.2
-01:45:35.551 [ INFO] MAESTRO.logSystemInfo: Architecture: aarch64
-01:45:35.555 [ INFO] MAESTRO.logSystemInfo: Java Version: 21
-01:45:35.724 [ INFO] MAESTRO.logSystemInfo: Xcode Version: 26.6
-01:45:35.761 [ INFO] MAESTRO.logSystemInfo: Flutter Version: Undefined
-01:45:35.815 [ INFO] MAESTRO.logSystemInfo: Flutter Channel: Undefined
-01:45:35.815 [ INFO] MAESTRO.logSystemInfo: ---------------------
-01:45:36.668 [DEBUG] io.micrometer.common.util.internal.logging.InternalLoggerFactory.newDefaultFactory: Using SLF4J as the default logging framework
-01:45:38.172 [TRACE] ios.xctest.XCTestIOSDevice.open: Opening a connection
-01:45:38.172 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: Restarting XCTest Runner (uninstalling, installing and starting)
-01:45:38.173 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:38.181 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:38.181 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: XCTest Runner uninstalled, will install and start it
-01:45:38.183 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: start()
-01:45:38.183 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Start] Install XCUITest runner on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:38.185 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:38.193 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:38.193 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing build products
-01:45:38.323 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing build products
-01:45:38.323 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-iosUITests-Runner app
-01:45:38.734 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-iosUITests-Runner app
-01:45:38.734 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-ios app
-01:45:38.746 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-ios app
-01:45:38.747 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: Installing driver with xcodebuild
-01:45:38.749 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Start] Running XcUITest with `xcodebuild test-without-building` with 22087 and config: IOSDriverConfig(prebuiltRunner=false, sourceDirectory=driver-iPhoneSimulator, context=CLI, snapshotKeyHonorModalViews=null)
-01:45:38.753 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcodebuild, test-without-building, -xctestrun, /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/8EBAA496-5654-45BF-897F-3C4FD73935F115633788498153650012/maestro-driver-ios-config.xctestrun, -destination, id=8EBAA496-5654-45BF-897F-3C4FD73935F1, -derivedDataPath, /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/maestro_xctestrunner_xcodebuild_output18140470890062830438] with {TEST_RUNNER_PORT=22087}
-01:45:38.873 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Done] Running XcUITest with `xcodebuild test-without-building`
-01:45:38.874 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Done] Install XCUITest runner on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:38.874 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:38.875 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:39.515 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:39.516 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:40.103 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:40.105 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:40.762 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:40.810 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:41.514 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:41.522 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:42.063 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:42.065 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:42.718 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:42.745 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:43.376 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:43.379 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:43.886 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:43.887 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:44.549 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:44.551 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:45.179 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:45.181 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:45.793 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:45.797 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:46.411 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:46.414 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:46.965 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:46.969 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:47.611 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:47.613 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:48.166 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:48.170 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:48.767 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:48.772 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:49.326 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:49.330 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:49.978 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:49.980 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:50.630 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:50.630 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:51.283 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:51.284 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:51.856 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:51.861 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:52.463 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:52.469 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:52.989 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:52.992 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:53.573 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:53.577 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:54.091 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:54.093 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:54.744 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:54.756 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:55.333 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:55.337 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:55.979 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:55.982 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:56.629 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:56.631 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:57.138 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:57.140 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:58.005 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:58.100 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:58.819 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:45:59.281 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:45:59.959 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:00.320 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:01.242 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:01.248 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:01.844 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:01.846 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:02.463 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:02.466 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:03.070 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:03.115 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:03.729 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:03.731 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:04.370 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:04.379 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:04.909 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:04.914 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:05.542 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:05.613 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:06.276 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:06.286 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:06.933 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:06.937 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:07.591 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:07.593 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
-01:46:08.239 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
-01:46:08.317 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Done] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:42.068 [ INFO] maestro.cli.report.TestDebugReporter.logSystemInfo: Debug output path: /Users/runner/.maestro/tests/2026-11-23_022541
+02:25:42.071 [ INFO] MAESTRO.logSystemInfo: ---- System Info ----
+02:25:42.071 [ INFO] MAESTRO.logSystemInfo: Maestro Version: 2.12.1
+02:25:42.073 [ INFO] MAESTRO.logSystemInfo: CI: github
+02:25:42.074 [ INFO] MAESTRO.logSystemInfo: OS Name: Mac OS X
+02:25:42.075 [ INFO] MAESTRO.logSystemInfo: OS Version: 26.7.2
+02:25:42.075 [ INFO] MAESTRO.logSystemInfo: Architecture: aarch64
+02:25:42.084 [ INFO] MAESTRO.logSystemInfo: Java Version: 21
+02:25:42.249 [ INFO] MAESTRO.logSystemInfo: Xcode Version: 26.6
+02:25:42.282 [ INFO] MAESTRO.logSystemInfo: Flutter Version: Undefined
+02:25:42.321 [ INFO] MAESTRO.logSystemInfo: Flutter Channel: Undefined
+02:25:42.321 [ INFO] MAESTRO.logSystemInfo: ---------------------
+02:25:43.228 [DEBUG] io.micrometer.common.util.internal.logging.InternalLoggerFactory.newDefaultFactory: Using SLF4J as the default logging framework
+02:25:48.346 [TRACE] ios.xctest.XCTestIOSDevice.open: Opening a connection
+02:25:48.360 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: Restarting XCTest Runner (uninstalling, installing and starting)
+02:25:48.362 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:48.364 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:48.364 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: XCTest Runner uninstalled, will install and start it
+02:25:48.365 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: start()
+02:25:48.365 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Start] Install XCUITest runner on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:48.365 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:48.366 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:48.366 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing build products
+02:25:48.618 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing build products
+02:25:48.618 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-iosUITests-Runner app
+02:25:49.462 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-iosUITests-Runner app
+02:25:49.463 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-ios app
+02:25:49.488 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-ios app
+02:25:49.489 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: Installing driver with xcodebuild
+02:25:49.492 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Start] Running XcUITest with `xcodebuild test-without-building` with 22087 and config: IOSDriverConfig(prebuiltRunner=false, sourceDirectory=driver-iPhoneSimulator, context=CLI, snapshotKeyHonorModalViews=null)
+02:25:49.493 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcodebuild, test-without-building, -xctestrun, /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/8EBAA496-5654-45BF-897F-3C4FD73935F118176011644579244115/maestro-driver-ios-config.xctestrun, -destination, id=8EBAA496-5654-45BF-897F-3C4FD73935F1, -derivedDataPath, /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/maestro_xctestrunner_xcodebuild_output18234475035564219670] with {TEST_RUNNER_PORT=22087}
+02:25:49.558 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Done] Running XcUITest with `xcodebuild test-without-building`
+02:25:49.559 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Done] Install XCUITest runner on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:49.560 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:49.562 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:50.191 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:50.194 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:50.782 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:50.784 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:51.433 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:51.437 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:52.055 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:52.062 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:52.699 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:52.701 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:53.324 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:53.327 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:53.869 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:53.871 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:54.522 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:54.523 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:55.166 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:55.168 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:55.818 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:55.820 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:56.471 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:56.478 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:57.052 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:57.054 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:57.655 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:57.658 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:58.292 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:58.294 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:58.941 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:58.943 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:25:59.484 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:25:59.486 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:00.032 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:00.199 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:00.844 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:00.848 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:01.483 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:01.485 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:02.006 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:02.008 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:02.535 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:02.536 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:03.128 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:03.131 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:03.714 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:03.715 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:04.321 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:04.323 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:04.828 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:04.829 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:05.453 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:05.455 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:05.993 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:06.010 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:06.632 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:06.634 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:07.255 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:07.258 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:07.891 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:07.894 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:08.549 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:08.551 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:09.190 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:09.191 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:09.788 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:09.803 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:10.451 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:10.453 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:11.086 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:11.088 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:11.725 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:11.727 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:12.401 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:12.401 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:13.064 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:13.070 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:13.616 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:13.617 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:14.176 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:14.179 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:14.701 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:14.702 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:15.350 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:15.351 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:16.000 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:16.001 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:16.671 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:16.672 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:17.322 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:17.329 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:17.870 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:17.871 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:18.575 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:18.611 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:19.249 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:19.251 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:20.041 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:21.350 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:22.002 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:22.036 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:22.593 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:22.596 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:23.243 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:23.246 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:23.765 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:23.767 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:24.384 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:24.399 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:25.048 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:25.051 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:25.572 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:25.575 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:26.229 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:26.231 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:26.895 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:26.897 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:27.551 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:27.557 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:28.214 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:28.216 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:28.899 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:28.900 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:29.540 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:29.543 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:30.090 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:30.092 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:30.747 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:30.749 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:31.350 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:31.351 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:31.995 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:31.997 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:32.653 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:32.655 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:33.336 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:33.339 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:34.262 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:34.496 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:34.999 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:35.002 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:35.631 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:35.665 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:36.314 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:36.321 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:36.972 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:36.974 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:37.569 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:37.598 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:38.311 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:38.352 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:38.994 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:39.004 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:39.605 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:39.606 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:40.245 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:40.249 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:22087
+02:26:40.758 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1
+02:26:40.802 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Done] Perform XCUITest driver status check on 8EBAA496-5654-45BF-897F-3C4FD73935F1

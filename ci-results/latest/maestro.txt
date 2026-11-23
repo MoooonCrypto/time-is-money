@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (1m 15s) (Assertion is false: ".*1,500円／時間.*" is visible)
+[Failed] onboarding (4m 49s) (Assertion is false: ".*いくら.*" is visible)
 
 1/1 Flow Failed
 
