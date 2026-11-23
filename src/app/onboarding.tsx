@@ -98,12 +98,9 @@ export default function Onboarding() {
               </Section>
             ) : null}
             {canEditLimits ? (
-              <Button
-                kind="tinted"
-                icon="plus"
-                title={store.config.rules.length > 0 ? "もう1つ追加" : "アプリを選んで制限を作成"}
-                onPress={() => router.push("/limit-editor")}
-              />
+              store.config.rules.length > 0 ? (
+                <Button kind="tinted" icon="plus" title="もう1つ追加" onPress={() => router.push("/limit-editor")} />
+              ) : null
             ) : (
               <View style={s.hint}>
                 <Icon name="info.circle" size={18} tint={color.secondaryLabel} />
@@ -117,15 +114,20 @@ export default function Onboarding() {
       </ScrollView>
 
       <View style={[s.footer, { paddingBottom: Math.max(insets.bottom, space.l) }]}>
-        <Button
-          testID="onboarding-next"
-          title={page < PAGES - 1 ? "次へ" : "はじめる"}
-          disabled={page === 0 && !rate.parsed.ok}
-          onPress={() => void next()}
-        />
-        {page === PAGES - 1 && store.config.rules.length === 0 ? (
-          <Button testID="onboarding-later" kind="plain" compact title="あとで設定する" onPress={() => void finish()} />
-        ) : null}
+        {page === PAGES - 1 && canEditLimits && store.config.rules.length === 0 ? (
+          <>
+            {/* One clear primary action: create the first limit; "later" is secondary. */}
+            <Button testID="onboarding-create-limit" title="アプリを選んで制限を作成" icon="plus" onPress={() => router.push("/limit-editor")} />
+            <Button testID="onboarding-later" kind="plain" compact title="あとで設定する" onPress={() => void finish()} />
+          </>
+        ) : (
+          <Button
+            testID="onboarding-next"
+            title={page < PAGES - 1 ? "次へ" : "はじめる"}
+            disabled={page === 0 && !rate.parsed.ok}
+            onPress={() => void next()}
+          />
+        )}
       </View>
     </KeyboardAvoidingView>
   );

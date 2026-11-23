@@ -20,8 +20,9 @@ appId: com.example.timeismoney
     id: "onboarding-next"
 - assertVisible: "最初の制限"
 - takeScreenshot: 03-onboarding-first-limit
+# Without Screen Time access the only action is "はじめる".
 - tapOn:
-    id: "onboarding-later"
+    id: "onboarding-next"
 # Home tab
 - extendedWaitUntil:
     visible: "Time Is Money"
@@ -30,7 +31,7 @@ appId: com.example.timeismoney
 - assertVisible: "スクリーンタイムへのアクセスが必要です"
 - takeScreenshot: 04-home
 - scrollUntilVisible:
-    element: "時間の単価"
+    element: "時間の単価.*"
     direction: DOWN
 - assertVisible: ".*1,500円／時間.*"
 - takeScreenshot: 05-home-scrolled
@@ -45,7 +46,7 @@ appId: com.example.timeismoney
 - takeScreenshot: 07-limits
 # Settings tab
 - tapOn: "設定"
-- assertVisible: "時間の単価"
+- assertVisible: "時間の単価.*"
 - takeScreenshot: 08-settings
 - tapOn:
     id: "settings-rate"
