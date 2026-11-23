@@ -253,8 +253,7 @@ macOS 26 ランナー・Xcode 26.6・iPhone 17 シミュレータ（iOS 26.5）�
 | `npm run verify`、TIMCore の Swift テスト、prebuild + pod install | ✅（毎回） |
 | `xcodebuild`（Release / iOS Simulator / 署名なし、本体 Pod + 4拡張、expo-symbols・expo-haptics・セグメントコントロールを含む） | ✅（run 1〜11 すべて成功） |
 | 拡張の埋め込み（`PlugIns/` に3つ、`Extensions/` に Report） | ✅ |
-| Maestro UI テスト（新デザイン） | run 11：ライトモードの画面 01〜10 と、ダークモードの全画面（ホーム・制限・設定・編集シート）を通過。ライトモードで編集シートを開くステップだけ、表示待ちのタイミングで失敗 |
-| 最終修正（ダークモードのシートヘッダー色、編集カードの区切り線、権限なし時の追加ボタン無効化、Maestro の待機） | **シミュレータでは未確認**（run 12 の結果は未確認のまま CI を停止）。コード検証（型・lint・テスト・export・prebuild）は通過 |
+| Maestro UI テスト（「メーター」デザイン） | run 14 で全フロー通過：ライトはオンボーディング3画面・ホーム・設定・単価シート・アクセス許可・編集（毎日／曜日別）・制限一覧、ダークはホーム・設定・編集、ほかにスクリーンタイム許可ボタンを押した後の画面 |
 
 CI で見つけて直した主な不具合：
 - **起動時の白画面（run 5・6・9）**：最初の描画で `AuthorizationCenter.authorizationStatus` を JS スレッドから同期で読んでいた。これは FamilyControlsAgent への XPC 呼び出しで、ログに「Failed to get service proxy」が出て止まることがある。`AsyncFunction`（`getAuthorizationStatusAsync`）に変え、読み込み中は「確認中」と表示するようにした（run 10 以降は全起動で描画を確認）。当初は ScrollView の inset 変更が原因と判断したが、これは誤りだった。
