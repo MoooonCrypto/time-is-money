@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <testsuites>
-  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="0" time="82.085" timestamp="2026-11-23T04:49:28">
-    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="81.917" timestamp="2026-11-23T04:49:28" status="SUCCESS"/>
+  <testsuite name="Test Suite" device="iPhone 17 - iOS 26.5 - 8EBAA496-5654-45BF-897F-3C4FD73935F1" tests="1" failures="1" time="61.689" timestamp="2026-11-23T09:39:14">
+    <testcase id="onboarding" name="onboarding" classname="onboarding" file=".maestro/onboarding.yaml" time="61.575" timestamp="2026-11-23T09:39:14" status="ERROR">
+      <failure>Assertion is false: "¥ --" is visible</failure>
+    </testcase>
   </testsuite>
 </testsuites>
