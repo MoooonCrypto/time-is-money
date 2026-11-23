@@ -1,6 +1,6 @@
 
 Waiting for flows to complete...
-[Failed] onboarding (1m 7s) (Assertion is false: "制限の追加" is visible)
+[Passed] onboarding (1m 22s)
 
-1/1 Flow Failed
+1/1 Flow Passed in 1m 22s
 
